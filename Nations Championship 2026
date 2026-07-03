@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nations Championship 2026 Predictor</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --nc-dark: #0a0f1a; --nc-gold: #c5a059; --nc-blue: #1e40af; --nc-bg: #f1f5f9;
+  --sf: #ffffff; --bd: #e2e8f0; --t1: #0f172a; --t2: #475569; --t3: #94a3b8;
+  --r: 10px; --sh: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--nc-bg); color: var(--t1); line-height: 1.5; font-size: 14px; }
+.shell { max-width: 1000px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* HEADER & NAV */
+header { background: var(--nc-dark); color: white; padding: 20px; border-bottom: 3px solid var(--nc-gold); }
+.h-top { display: flex; align-items: center; gap: 12px; }
+.h-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+.h-sub { color: var(--nc-gold); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+
+nav { background: var(--sf); border-bottom: 1px solid var(--bd); display: flex; sticky; top: 0; z-index: 100; overflow-x: auto; }
+.nav-btn { padding: 14px 20px; font-weight: 600; color: var(--t2); border: none; background: none; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: 0.2s; }
+.nav-btn.active { color: var(--nc-blue); border-bottom-color: var(--nc-blue); background: #f8fafc; }
+
+/* CONTENT */
+.content { padding: 20px; flex: 1; }
+.view { display: none; }
+.view.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.hint { background: var(--sf); border: 1px solid var(--bd); padding: 12px 16px; border-radius: var(--r); font-size: 13px; color: var(--t2); margin-bottom: 20px; line-height: 1.6; }
+
+/* STANDINGS */
+.conf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.card { background: var(--sf); border-radius: var(--r); border: 1px solid var(--bd); box-shadow: var(--sh); overflow: hidden; }
+.card-h { background: #f8fafc; padding: 12px 16px; font-weight: 700; border-bottom: 1px solid var(--bd); display: flex; justify-content: space-between; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.table th { text-align: left; padding: 8px 12px; background: #f8fafc; color: var(--t3); text-transform: uppercase; font-size: 10px; }
+.table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
+.t-name { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.fi { width: 20px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); object-fit: cover; }
+
+/* FIXTURES */
+.fix-section { margin-top: 15px; background: #fafafa; border-top: 1px solid var(--bd); }
+.fix-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--bd); }
+.fix-row:last-child { border-bottom: none; }
+.team-label { font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.team-r { justify-content: flex-end; text-align: right; }
+.score-box { display: flex; gap: 4px; align-items: center; }
+.score-in { width: 34px; height: 26px; text-align: center; border: 1px solid var(--bd); border-radius: 4px; font-weight: 700; font-family: inherit; }
+.f-meta { grid-column: 1 / span 3; font-size: 9px; color: var(--t3); text-align: center; margin-top: -4px; padding-bottom: 4px; }
+
+/* FINALS */
+.finals-wrap { background: radial-gradient(circle at top, #1e293b, #0f172a); color: white; padding: 40px 20px; border-radius: 16px; text-align: center; margin-top: 20px; }
+.f-match { display: flex; justify-content: center; align-items: center; gap: 30px; margin: 30px 0; }
+.f-team-card { cursor: pointer; padding: 20px; border-radius: 12px; border: 2px solid transparent; transition: 0.2s; width: 180px; }
+.f-team-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+.f-team-card.picked { border-color: var(--nc-gold); background: rgba(197, 160, 89, 0.1); }
+.f-team-flag { width: 60px; height: 42px; border-radius: 4px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.f-team-name { font-size: 1.1rem; font-weight: 700; }
+
+/* SCHEDULE */
+.sch-day { margin-bottom: 12px; }
+.sch-date { font-weight: 700; font-size: 12px; color: var(--nc-blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.sch-match { background: white; border: 1px solid var(--bd); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 16px; }
+.sch-time { font-family: monospace; font-weight: 700; color: var(--t2); min-width: 50px; }
+.sch-teams { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.sch-t { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; }
+.sch-venue { font-size: 10px; color: var(--t3); margin-top: 4px; }
+
+@media (max-width: 600px) {
+  .h-top { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .f-match { flex-direction: column; gap: 15px; }
+  .sch-match { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header>
+    <div class="h-top">
+      <div style="font-size: 28px;">🏉</div>
+      <div>
+        <div class="h-title">Nations Championship 2026</div>
+        <div class="h-sub">Global Tournament Predictor</div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" onclick="show('standings', this)">Conferences</button>
+    <button class="nav-btn" onclick="show('schedule', this)">Full Schedule</button>
+    <button class="nav-btn" onclick="show('finals', this)">Finals Weekend</button>
+    <button class="nav-btn" style="margin-left: auto; color: var(--t3);" onclick="resetData()">Reset</button>
+  </nav>
+
+  <div class="content">
+    <div id="v-standings" class="view active">
+      <div class="hint">
+        <strong>Tournament Format:</strong> 12 nations split into Northern and Southern conferences. Each team plays 6 cross-hemisphere matches—3 in July and 3 in November. Standings are determined by match points (4 for win, 2 for draw) and bonus points.
+      </div>
+      <div class="conf-grid">
+        <div id="table-north"></div>
+        <div id="table-south"></div>
+      </div>
+    </div>
+
+    <div id="v-schedule" class="view">
+      <div id="schedule-list"></div>
+    </div>
+
+    <div id="v-finals" class="view">
+      <div class="finals-wrap">
+        <h2 style="font-size: 24px; font-weight: 900; letter-spacing: 1px;">THE GRAND FINAL</h2>
+        <p style="color: var(--nc-gold); margin-bottom: 30px; font-weight: 600;">London · November 29, 2026</p>
+        <div id="final-matchup"></div>
+        <div id="champ-reveal"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ISO = {
+  "Ireland":"ie", "France":"fr", "England":"gb-eng", "Scotland":"gb-sct", "Wales":"gb-wls", "Italy":"it",
+  "South Africa":"za", "New Zealand":"nz", "Argentina":"ar", "Australia":"au", "Fiji":"fj", "Japan":"jp"
+};
+
+const NORTH = ["Ireland", "France", "England", "Scotland", "Wales", "Italy"];
+const SOUTH = ["South Africa", "New Zealand", "Argentina", "Australia", "Fiji", "Japan"];
+
+// OFFICIAL 2026 FIXTURES
+const FIXTURES = [
+  { id: 1, d: "Jul 4", t: "19:10", v: "Te Kaha, Christchurch", a: "New Zealand", b: "France" },
+  { id: 2, d: "Jul 4", t: "19:45", v: "Allianz Stadium, Sydney", a: "Australia", b: "Ireland" },
+  { id: 3, d: "Jul 4", t: "19:10", v: "Chichibunomiya Stadium, Tokyo", a: "Japan", b: "Italy" },
+  { id: 4, d: "Jul 4", t: "14:10", v: "Cardiff City Stadium, Cardiff", a: "Fiji", b: "Wales" },
+  { id: 5, d: "Jul 4", t: "17:40", v: "Ellis Park, Johannesburg", a: "South Africa", b: "England" },
+  { id: 6, d: "Jul 4", t: "16:00", v: "Estadio Mario Kempes, Cordoba", a: "Argentina", b: "Scotland" },
+  { id: 7, d: "Jul 11", t: "17:10", v: "Sky Stadium, Wellington", a: "New Zealand", b: "Italy" },
+  { id: 8, d: "Jul 11", t: "19:45", v: "Lang Park, Brisbane", a: "Australia", b: "France" },
+  { id: 9, d: "Jul 11", t: "19:10", v: "Robina Stadium, Gold Coast", a: "Japan", b: "Ireland" },
+  { id: 10, d: "Jul 11", t: "14:10", v: "Hill Dickinson Stadium, Liverpool", a: "Fiji", b: "England" },
+  { id: 11, d: "Jul 11", t: "17:40", v: "Loftus Versfeld, Pretoria", a: "South Africa", b: "Scotland" },
+  { id: 12, d: "Jul 11", t: "16:00", v: "Estadio del Bicentenario, San Juan", a: "Argentina", b: "Wales" },
+  { id: 13, d: "Jul 18", t: "19:10", v: "National Stadium, Tokyo", a: "Japan", b: "France" },
+  { id: 14, d: "Jul 18", t: "17:00", v: "Eden Park, Auckland", a: "New Zealand", b: "Ireland" },
+  { id: 15, d: "Jul 18", t: "18:00", v: "Perth Rectangular Stadium, Perth", a: "Australia", b: "Italy" },
+  { id: 16, d: "Jul 18", t: "14:10", v: "Murrayfield, Edinburgh", a: "Fiji", b: "Scotland" },
+  { id: 17, d: "Jul 18", t: "17:40", v: "Kings Park Stadium, Durban", a: "South Africa", b: "Wales" },
+  { id: 18, d: "Jul 18", t: "16:00", v: "Estadio Madre de Ciudades, Santiago", a: "Argentina", b: "England" },
+  { id: 19, d: "Nov 6", t: "20:10", v: "Aviva Stadium, Dublin", a: "Ireland", b: "Argentina" },
+  { id: 20, d: "Nov 7", t: "16:00", v: "Principality Stadium, Cardiff", a: "Wales", b: "Japan" },
+  { id: 21, d: "Nov 7", t: "16:00", v: "Murrayfield, Edinburgh", a: "Scotland", b: "New Zealand" },
+  { id: 22, d: "Nov 7", t: "16:00", v: "Allianz Stadium, London", a: "England", b: "Australia" },
+  { id: 23, d: "Nov 13", t: "20:00", v: "Aviva Stadium, Dublin", a: "Ireland", b: "Fiji" },
+  { id: 24, d: "Nov 14", t: "15:00", v: "Allianz Stadium, London", a: "England", b: "Japan" },
+  { id: 25, d: "Nov 21", t: "16:00", v: "Stade de France, Paris", a: "France", b: "Argentina" },
+  { id: 26, d: "Nov 21", t: "16:00", v: "Allianz Stadium, London", a: "England", b: "New Zealand" }
+];
+
+let SCORES = JSON.parse(localStorage.getItem('nc26_scores')) || {};
+let PICK = localStorage.getItem('nc26_pick');
+
+function fimg(t) { return `<img class="fi" src="https://flagcdn.com/w40/${ISO[t]}.png" alt="${t}">`; }
+
+function show(v, btn) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('v-'+v).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function update(id, side, val) {
+  if(!SCORES[id]) SCORES[id] = {a:0, b:0};
+  SCORES[id][side] = parseInt(val) || 0;
+  localStorage.setItem('nc26_scores', JSON.stringify(SCORES));
+  renderAll();
+}
+
+function calc(teams) {
+  let s = teams.map(t => ({ name: t, p: 0, w: 0, l: 0, d: 0, pd: 0, pts: 0 }));
+  FIXTURES.forEach(f => {
+    const sc = SCORES[f.id];
+    if(!sc) return;
+    let tA = s.find(x => x.name === f.a), tB = s.find(x => x.name === f.b);
+    if(tA || tB) {
+      if(tA) { tA.p++; tA.pd += (sc.a - sc.b); }
+      if(tB) { tB.p++; tB.pd += (sc.b - sc.a); }
+      if(sc.a > sc.b) { if(tA) tA.pts += 4; if(tB && (sc.a-sc.b <= 7)) tB.pts += 1; }
+      else if(sc.b > sc.a) { if(tB) tB.pts += 4; if(tA && (sc.b-sc.a <= 7)) tA.pts += 1; }
+      else { if(tA) tA.pts += 2; if(tB) tB.pts += 2; }
+    }
+  });
+  return s.sort((a,b) => b.pts - a.pts || b.pd - a.pd);
+}
+
+function renderTable(elId, title, teams) {
+  const data = calc(teams);
+  const fix = FIXTURES.filter(f => teams.includes(f.a) || teams.includes(f.b));
+  
+  let html = `<div class="card"><div class="card-h">${title}</div><table class="table"><thead><tr><th>Team</th><th>P</th><th>PD</th><th>PTS</th></tr></thead><tbody>`;
+  data.forEach((t, i) => {
+    html += `<tr style="${i === 0 ? 'background: #f0fdf4' : ''}"><td class="t-name">${fimg(t.name)} ${t.name}</td><td>${t.p}</td><td>${t.pd > 0 ? '+' : ''}${t.pd}</td><td style="font-weight:800;">${t.pts}</td></tr>`;
+  });
+  html += `</tbody></table><div class="fix-section">`;
+  fix.forEach(f => {
+    const sc = SCORES[f.id] || {a:'', b:''};
+    html += `<div class="fix-row">
+      <div class="team-label team-r">${f.a} ${fimg(f.a)}</div>
+      <div class="score-box">
+        <input class="score-in" type="number" value="${sc.a}" onchange="update(${f.id},'a',this.value)">
+        <input class="score-in" type="number" value="${sc.b}" onchange="update(${f.id},'b',this.value)">
+      </div>
+      <div class="team-label">${fimg(f.b)} ${f.b}</div>
+      <div class="f-meta">${f.d} · ${f.v}</div>
+    </div>`;
+  });
+  document.getElementById(elId).innerHTML = html + `</div></div>`;
+  return data[0].name;
+}
+
+function renderSchedule() {
+  let html = "";
+  let lastDate = "";
+  FIXTURES.forEach(f => {
+    if(f.d !== lastDate) { html += `<div class="sch-day"><div class="sch-date">${f.d}</div>`; lastDate = f.d; }
+    html += `<div class="sch-match"><div class="sch-time">${f.t}</div><div class="sch-teams">
+      <div class="sch-t">${fimg(f.a)} ${f.a}</div><div class="sch-t">${fimg(f.b)} ${f.b}</div>
+      <div class="sch-venue">${f.v}</div></div></div>`;
+  });
+  document.getElementById('schedule-list').innerHTML = html;
+}
+
+function renderAll() {
+  const n1 = renderTable('table-north', 'Northern Conference', NORTH);
+  const s1 = renderTable('table-south', 'Southern Conference', SOUTH);
+  renderSchedule();
+
+  const finalBox = document.getElementById('final-matchup');
+  finalBox.innerHTML = `
+    <div class="f-match">
+      <div class="f-team-card ${PICK===n1?'picked':''}" onclick="pick('${n1}')">
+        <img class="f-team-flag" src="https://flagcdn.com/w160/${ISO[n1]}.png">
+        <div class="f-team-name">${n1}</div>
+        <div style="font-size:10px; color:var(--nc-gold); margin-top:4px;">NORTH #1</div>
+      </div>
+      <div style="font-size: 24px; font-weight: 900; opacity: 0.3;">VS</div>
+      <div class="f-team-card ${PICK===s1?'picked':''}" onclick="pick('${s1}')">
+        <img class="f-team-flag" src="https://flagcdn.com/w160/${ISO[s1]}.png">
+        <div class="f-team-name">${s1}</div>
+        <div style="font-size:10px; color:var(--nc-gold); margin-top:4px;">SOUTH #1</div>
+      </div>
+    </div>`;
+  document.getElementById('champ-reveal').innerHTML = PICK ? `<div style="font-size: 32px; font-weight: 900; color: var(--nc-gold); animation: fadeIn 0.5s;">🏆 ${PICK.toUpperCase()}</div>` : "";
+}
+
+function pick(name) { PICK = name; localStorage.setItem('nc26_pick', name); renderAll(); }
+function resetData() { if(confirm("Reset scores?")) { localStorage.clear(); SCORES = {}; PICK = null; renderAll(); } }
+
+renderAll();
+</script>
+</body>
+</html>
