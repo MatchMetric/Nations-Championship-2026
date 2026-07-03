@@ -368,8 +368,10 @@ function fimg(t,cls){
   if(!t||t==="TBD") return `<span class="fb">TBD</span>`;
   const c=ISO[t];
   const w=cls==="fi-xl"?96:cls==="fi-lg"?64:cls==="fi-sm"?24:28;
-  if(!c) return `<span class="fb">${(t||"").slice(0,3).toUpperCase()}</span>`;
-  return `<img class="${cls||'fi'}" src="https://flagcdn.com/w${w}/${c}.png" alt="${t}" onerror="this.outerHTML='<span class=fb>${(t||"").slice(0,3).toUpperCase()}</span>'" loading="lazy">`;
+  const h=Math.round(w*0.75);
+  const fb=(t||"").slice(0,3).toUpperCase();
+  if(!c) return `<span class="fb">${fb}</span>`;
+  return `<img class="${cls||'fi'}" src="https://flagcdn.com/${w}x${h}/${c}.png" alt="${t}" onerror="this.outerHTML='<span class=fb>${fb}</span>'">`;
 }
 
 // ── STANDINGS ──
