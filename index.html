@@ -29,20 +29,23 @@
 body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5;}
 
 /* ── TOPBAR ── */
-.topbar{background:var(--ink);padding:0 20px;display:flex;align-items:stretch;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.25);border-bottom:2px solid var(--gold);}
+.topbar{background:var(--ink);padding:0 20px;display:flex;align-items:stretch;position:sticky;top:0;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.4);border-bottom:2px solid var(--gold);}
 .tb-logo{display:flex;align-items:center;gap:12px;padding:13px 20px 13px 0;border-right:1px solid rgba(255,255,255,0.07);margin-right:20px;}
 .tb-ball{width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
-.tb-title{font-family:'Barlow Condensed',sans-serif;color:#fff;font-size:19px;font-weight:900;letter-spacing:0.3px;line-height:1.1;}
-.tb-sub{color:var(--gold2);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:2px;opacity:0.8;}
+
+/* Updated Title: Larger, pure white, with a subtle shadow to pop against the dark blue */
+.tb-title{font-family:'Barlow Condensed',sans-serif;color:#ffffff;font-size:24px;font-weight:900;letter-spacing:0.5px;line-height:1.1;text-shadow:0 2px 4px rgba(0,0,0,0.3);}
+.tb-sub{color:var(--gold2);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:2px;opacity:0.9;}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;padding:13px 0;}
 .tb-champ{background:rgba(201,150,26,0.13);border:1px solid rgba(201,150,26,0.28);border-radius:8px;padding:5px 13px;display:none;}
 .tb-champ .cl{font-size:9px;color:var(--gold2);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
 .tb-champ .cn{font-size:13px;color:#fff;font-weight:700;display:flex;align-items:center;gap:6px;margin-top:2px;}
-.btn-reset{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:7px;color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;font-family:'Barlow',sans-serif;padding:6px 12px;cursor:pointer;transition:all 0.15s;}
-.btn-reset:hover{background:rgba(255,255,255,0.12);color:#fff;}
+.btn-reset{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:7px;color:rgba(255,255,255,0.8);font-size:11px;font-weight:700;font-family:'Barlow',sans-serif;padding:6px 12px;cursor:pointer;transition:all 0.15s;}
+.btn-reset:hover{background:rgba(255,255,255,0.15);color:#fff;}
 
 /* ── NAV ── */
-.nav{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;padding:0 12px;position:sticky;top:66px;z-index:100;overflow-x:auto;}
+/* Pinned just below the topbar. Solid white background blocks everything scrolling under it. */
+.nav{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;padding:0 12px;position:sticky;top:66px;z-index:190;overflow-x:auto;box-shadow:0 4px 10px rgba(0,0,0,0.05);}
 .nav-btn{padding:13px 18px;font-size:13px;font-weight:600;font-family:'Barlow',sans-serif;cursor:pointer;background:none;border:none;border-bottom:2.5px solid transparent;color:var(--muted);transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
 .nav-btn:hover{color:var(--ink);background:var(--bg);}
 .nav-btn.active{color:var(--ink2);border-bottom-color:var(--gold);}
