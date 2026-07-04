@@ -28,40 +28,49 @@
 }
 body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5;}
 
-/* ── TOPBAR ── */
-.topbar{
-    background-color: #0d1b2e !important; /* Force solid navy */
-    padding: 0 20px;
-    display: flex;
-    align-items: stretch;
+/* ── MERGED TOPBAR & NAV ── */
+.topbar {
+    background: var(--ink);
+    padding: 20px 24px 0 24px;
     position: sticky;
     top: 0;
     z-index: 200;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    border-bottom: 2px solid var(--gold);
-}
-.tb-title{
-    font-family:'Barlow Condensed',sans-serif;
-    color:#ffffff !important; /* Force white */
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:0.5px;
-    line-height:1.1;
-    text-shadow:0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ── NAV ── */
-.nav{
-    background-color: #ffffff !important; /* Force solid white */
-    border-bottom:1px solid var(--bd);
-    display:flex;
-    padding:0 12px;
-    position:sticky;
-    top:66px;
-    z-index:190;
-    overflow-x:auto;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+.tb-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
 }
+
+.tb-left { display: flex; align-items: center; gap: 16px; }
+.tb-ball { width: 44px; height: 44px; background: var(--gold); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.tb-title { font-family: 'Barlow Condensed', sans-serif; color: #fff; font-size: 28px; font-weight: 900; letter-spacing: 0.5px; }
+
+.nav {
+    display: flex;
+    gap: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-btn {
+    padding: 16px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    transition: all 0.2s;
+}
+
+.nav-btn.active { color: #fff; border-bottom-color: var(--gold); }
+.nav-btn:hover { color: #fff; }
   
 .shell{max-width:1020px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
 .content{padding:18px;flex:1;}
@@ -243,24 +252,22 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-h
 <div class="shell">
 
 <div class="topbar">
-  <div class="tb-logo">
-    <div class="tb-ball">🏉</div>
-    <div>
-      <div class="tb-title">Nations Championship 2026</div>
-      <div class="tb-sub">Global Rugby Predictor</div>
-    </div>
-  </div>
-  <div class="tb-right">
-    <div class="tb-champ" id="cpill"><div class="cl">Your Champion</div><div class="cn" id="cpillname"></div></div>
-    <button class="btn-reset" onclick="doReset()">↺ Reset</button>
-  </div>
-</div>
-
-<div class="nav">
-  <button class="nav-btn active" onclick="showView('conferences',this)">◫ Conferences</button>
-  <button class="nav-btn" onclick="showView('schedule',this)">📅 Schedule</button>
-  <button class="nav-btn" onclick="showView('path',this)">◈ Team Path</button>
-  <button class="nav-btn" onclick="showView('finals',this)">🏆 Grand Final</button>
+  <div class="tb-main">
+    <div class="tb-left">
+        <div class="tb-ball">🏉</div>
+        <div class="tb-title">Nations Championship 2026</div>
+    </div>
+    <div class="tb-right">
+        <button class="btn-reset" onclick="doReset()">↺ Reset</button>
+    </div>
+  </div>
+  
+  <div class="nav">
+    <button class="nav-btn active" onclick="showView('conferences',this)">◫ Conferences</button>
+    <button class="nav-btn" onclick="showView('schedule',this)">📅 Schedule</button>
+    <button class="nav-btn" onclick="showView('path',this)">◈ Team Path</button>
+    <button class="nav-btn" onclick="showView('finals',this)">🏆 Grand Final</button>
+  </div>
 </div>
 
 <div class="content">
