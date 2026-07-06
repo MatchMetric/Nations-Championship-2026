@@ -3,720 +3,808 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nations Championship 2026 Predictor </title>
+<title>Nations Championship 2026 Predictor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Refined palette — softer than before */
-  --ink:#0d1b2e; --ink2:#1c3150; --ink3:#3a5068; --muted:#647d96; --silver:#8fa4b8;
-  --pale:#e6ecf4; --bg:#eef1f7; --sf:#ffffff; --bd:rgba(0,0,0,0.07); --bd2:rgba(0,0,0,0.12);
-
-  /* North: slate blue — softer navy */
-  --north:#2c5282; --north-lt:#3a6fa8; --north-glow:rgba(44,82,130,0.10); --north-accent:#7eb8e8;
-
-  /* South: warm amber — not dark brown */
-  --south:#7a4f0a; --south-lt:#a0691a; --south-glow:rgba(122,79,10,0.10); --south-accent:#d4a040;
-
-  --gold:#c9961a; --gold2:#e8b830;
-  --green:#1e6b3e; --green-bg:#f0fdf5;
-  --red:#8b2020; --red-bg:#fdf2f2;
-
-  --r:10px; --rl:14px;
-  --sh:0 1px 6px rgba(0,0,0,0.07); --shm:0 4px 18px rgba(0,0,0,0.11);
+  --ink:#0c1a2c; --ink2:#1d3352; --ink3:#3c5470; --muted:#61798f; --silver:#8ba0b4;
+  --pale:#e8edf4; --bg:#eef1f6; --sf:#ffffff; --bd:rgba(13,27,46,0.08); --bd2:rgba(13,27,46,0.16);
+  /* North — cool atlantic blue */
+  --north:#1d4e89; --north-lt:#2f6cb4; --north-accent:#6db1ec; --north-glow:rgba(29,78,137,0.10);
+  /* South — warm sunset amber */
+  --south:#9a4f0e; --south-lt:#c06a1a; --south-accent:#f0a94e; --south-glow:rgba(154,79,14,0.10);
+  --gold:#c9961a; --gold2:#eebd3a;
+  --green:#1c7a44; --green-bg:#eefaf3;
+  --red:#a12626; --red-bg:#fdf1f1;
+  --live:#1c7a44;
+  --r:10px; --rl:14px;
+  --sh:0 1px 5px rgba(13,27,46,0.06); --shm:0 6px 22px rgba(13,27,46,0.12);
 }
-body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5;}
-
-/* ── TOPBAR & NAV ── */
-.topbar {
-    background-color: #0d1b2e !important; /* Force deep navy */
-    padding: 20px 24px 0 24px;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.tb-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 20px;
-}
-
-.tb-title { 
-    color: #ffffff !important; /* Force white text */
-    font-size: 28px; 
-    font-weight: 900; 
-}
-
-.nav {
-    display: flex;
-    gap: 32px;
-    background-color: #0d1b2e !important; /* Force navy background for nav too */
-    padding-left: 24px;
-}
-
-.nav-btn {
-    padding: 16px 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.7); /* Lighter text for navy background */
-    border-bottom: 3px solid transparent;
-    cursor: pointer;
-    background: none;
-    border: none;
-    transition: all 0.2s;
-}
-
-.nav-btn.active { color: #ffffff; border-bottom-color: var(--gold); }
-.nav-btn:hover { color: #ffffff; }
-  
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:
+  radial-gradient(1100px 500px at 85% -180px,rgba(29,78,137,0.07),transparent 60%),
+  radial-gradient(1100px 500px at 10% -180px,rgba(154,79,14,0.06),transparent 60%),
+  var(--bg);
+  color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5;}
 .shell{max-width:1020px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+/* ── TOPBAR ── */
+.topbar{background:linear-gradient(150deg,#0a1524 0%,#10233e 55%,#132a4a 100%);padding:16px 22px 0;position:sticky;top:0;z-index:200;box-shadow:0 6px 20px rgba(5,12,24,0.35);border-bottom:1px solid rgba(238,189,58,0.28);}
+.tb-main{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;}
+.tb-left{display:flex;align-items:center;gap:12px;min-width:0;}
+.tb-ball{width:40px;height:40px;border-radius:50%;background:linear-gradient(140deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 3px 12px rgba(201,150,26,0.4);}
+.tb-title{color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:0.6px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tb-sub{font-size:10px;font-weight:600;color:rgba(255,255,255,0.42);text-transform:uppercase;letter-spacing:1.6px;margin-top:2px;}
+.tb-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.cpill{display:none;align-items:center;gap:6px;background:rgba(238,189,58,0.12);border:1px solid rgba(238,189,58,0.4);color:var(--gold2);font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;white-space:nowrap;}
+.cpill .fi-sm{width:18px;height:13px;}
+.btn-reset{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;font-family:'Barlow',sans-serif;padding:7px 13px;border-radius:8px;cursor:pointer;transition:all 0.15s;}
+.btn-reset:hover{background:rgba(255,255,255,0.13);color:#fff;}
+.sync-badge{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:0.3px;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--silver);flex-shrink:0;}
+.sync-dot.live{background:#3ddc84;box-shadow:0 0 8px rgba(61,220,132,0.7);animation:pulse 2.2s infinite;}
+.sync-dot.embedded{background:var(--gold2);}
+.sync-dot.offline{background:#e05252;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{padding:12px 16px;font-size:13px;font-weight:700;font-family:'Barlow',sans-serif;color:rgba(255,255,255,0.55);border:none;border-bottom:3px solid transparent;cursor:pointer;background:none;transition:all 0.18s;white-space:nowrap;}
+.nav-btn.active{color:#fff;border-bottom-color:var(--gold2);}
+.nav-btn:hover{color:#fff;}
 .content{padding:18px;flex:1;}
 .view{display:none;}
-.view.active{display:block;animation:fadein 0.2s ease;}
-@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-
-.hint{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 15px;font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.7;}
+.view.active{display:block;animation:fadein 0.22s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.hint{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--gold);border-radius:var(--r);padding:10px 15px;font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.7;box-shadow:var(--sh);}
 .hint strong{color:var(--ink3);}
-
 /* ── FLAGS ── */
-.fi   {width:24px;height:17px;object-fit:cover;border-radius:2px;border:0.5px solid rgba(0,0,0,0.1);flex-shrink:0;vertical-align:middle;}
-.fi-sm{width:20px;height:14px;object-fit:cover;border-radius:2px;border:0.5px solid rgba(0,0,0,0.1);flex-shrink:0;vertical-align:middle;}
-.fi-lg{width:54px;height:38px;object-fit:cover;border-radius:3px;border:1px solid rgba(0,0,0,0.1);flex-shrink:0;}
-.fi-xl{width:70px;height:50px;object-fit:cover;border-radius:4px;border:1px solid rgba(0,0,0,0.12);}
+.fi{width:24px;height:17px;object-fit:cover;border-radius:2.5px;border:0.5px solid rgba(0,0,0,0.12);flex-shrink:0;vertical-align:middle;box-shadow:0 1px 2px rgba(0,0,0,0.12);}
+.fi-sm{width:20px;height:14px;object-fit:cover;border-radius:2px;border:0.5px solid rgba(0,0,0,0.12);flex-shrink:0;vertical-align:middle;}
+.fi-lg{width:54px;height:38px;object-fit:cover;border-radius:4px;border:1px solid rgba(0,0,0,0.1);flex-shrink:0;box-shadow:0 3px 8px rgba(0,0,0,0.18);}
 .fb{font-size:10px;font-weight:700;color:var(--silver);background:var(--pale);border-radius:2px;padding:1px 4px;font-family:'Barlow Condensed',sans-serif;}
-
+/* ── BADGES ── */
+.ft-badge{display:inline-block;font-size:9px;font-weight:800;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.6px;color:#fff;background:var(--live);border-radius:3px;padding:1.5px 6px;vertical-align:middle;}
+.pred-badge{display:inline-block;font-size:9px;font-weight:800;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.6px;color:#7a5c00;background:rgba(201,150,26,0.14);border-radius:3px;padding:1.5px 6px;vertical-align:middle;}
 /* ── MODE TOGGLE ── */
-.mode-toggle{display:flex;background:var(--ink);border-radius:10px;padding:4px;margin-bottom:18px;max-width:420px;margin-left:auto;margin-right:auto;}
-.mt-btn{flex:1;padding:10px;font-size:13px;font-weight:700;font-family:'Barlow',sans-serif;text-align:center;border:none;background:none;border-radius:7px;cursor:pointer;color:rgba(255,255,255,0.45);transition:all 0.15s;}
-.mt-btn.active{background:var(--gold);color:var(--ink);box-shadow:0 2px 8px rgba(201,150,26,0.35);}
-
+.mode-toggle{display:flex;background:var(--ink);border-radius:11px;padding:4px;margin:0 auto 16px;max-width:420px;box-shadow:var(--shm);}
+.mt-btn{flex:1;padding:10px;font-size:13px;font-weight:700;font-family:'Barlow',sans-serif;text-align:center;border:none;background:none;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.45);transition:all 0.15s;}
+.mt-btn.active{background:linear-gradient(140deg,var(--gold2),var(--gold));color:var(--ink);box-shadow:0 2px 10px rgba(201,150,26,0.4);}
 /* ── CONFERENCE GRID ── */
-.conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
 @media(max-width:720px){.conf-grid{grid-template-columns:1fr;}}
-
 .conf-card{background:var(--sf);border-radius:var(--rl);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;}
-
-.conf-head{padding:11px 15px;display:flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:0.3px;}
-.conf-head.north{background:var(--north);color:#fff;border-bottom:3px solid var(--north-accent);}
-.conf-head.south{background:var(--south);color:#fff;border-bottom:3px solid var(--south-accent);}
-.conf-head .chsub{font-size:10px;font-weight:500;opacity:0.55;margin-left:auto;text-transform:uppercase;letter-spacing:0.5px;}
-
+.conf-head{padding:12px 15px;display:flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:0.4px;color:#fff;}
+.conf-head.north{background:linear-gradient(140deg,#173f70,var(--north) 55%,var(--north-lt));border-bottom:3px solid var(--north-accent);}
+.conf-head.south{background:linear-gradient(140deg,#7c3f0a,var(--south) 55%,var(--south-lt));border-bottom:3px solid var(--south-accent);}
+.conf-head .chsub{font-size:10px;font-weight:600;opacity:0.65;margin-left:auto;text-transform:uppercase;letter-spacing:1px;}
 /* ── STANDINGS TABLE ── */
 .rtable{width:100%;border-collapse:collapse;font-size:12px;}
-.rtable th{text-align:left;padding:6px 10px;background:#f7f9fc;color:var(--silver);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--bd);}
+.rtable th{text-align:left;padding:7px 10px;background:#f6f8fc;color:var(--silver);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;border-bottom:1px solid var(--bd);}
 .rtable th.rc,.rtable td.rc{text-align:center;}
 .rtable td{padding:9px 10px;border-bottom:1px solid #f1f4f9;vertical-align:middle;}
 .rtable tr:last-child td{border-bottom:none;}
 .rtable tr:hover td{background:#fbfcfe;}
 .rtable tr.leader td{background:var(--green-bg);}
 .rtable tr.leader td:first-child{border-left:3px solid var(--green);}
-.pts-bold{font-weight:800;color:var(--ink);}
+.pts-bold{font-weight:800;color:var(--ink);font-size:13px;}
 .pd-pos{color:var(--green);font-weight:600;}
 .pd-neg{color:var(--red);font-weight:600;}
 .rnum{font-size:10px;color:var(--silver);font-family:'Barlow Condensed',sans-serif;font-weight:700;min-width:16px;display:inline-block;text-align:center;}
 .t-cell{font-weight:600;display:flex;align-items:center;gap:8px;}
-
 /* ── QUICK RANK ── */
 .trow{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--bd);transition:background 0.1s;}
 .trow:last-child{border-bottom:none;}
 .trow:hover{background:#fafbfe;}
-.trow.leader{background:var(--green-bg);}
-.trow.leader{border-left:3px solid var(--green);}
+.trow.leader{background:var(--green-bg);border-left:3px solid var(--green);}
 .tname{flex:1;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;min-width:0;}
 .mbtn{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
-.mb{background:none;border:1px solid var(--bd2);border-radius:4px;padding:2px 7px;font-size:9px;cursor:pointer;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:700;line-height:1.4;transition:background 0.1s;}
+.mb{background:none;border:1px solid var(--bd2);border-radius:4px;padding:2px 8px;font-size:9px;cursor:pointer;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:700;line-height:1.4;transition:all 0.1s;}
 .mb:hover{background:var(--pale);color:var(--ink);}
 .mb:disabled{opacity:0.2;cursor:default;}
-
 /* ── FIXTURE ROWS ── */
-.fix-panel{background:#f8fafc;border-top:1px solid var(--bd);padding:10px;display:flex;flex-direction:column;gap:5px;}
-.fix-rlabel{font-size:9px;font-weight:800;color:var(--silver);text-transform:uppercase;letter-spacing:1px;margin:4px 0 2px;text-align:center;}
-.f-row{display:flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;}
+.fix-panel{background:#f7f9fc;border-top:1px solid var(--bd);padding:10px;display:flex;flex-direction:column;gap:5px;}
+.fix-rlabel{font-size:9px;font-weight:800;color:var(--silver);text-transform:uppercase;letter-spacing:1.2px;margin:5px 0 2px;text-align:center;}
+.f-row{display:flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:9px;padding:6px 8px;}
+.f-row.official{border-color:rgba(28,122,68,0.35);background:linear-gradient(0deg,rgba(28,122,68,0.03),rgba(28,122,68,0.03)),var(--sf);}
 .f-team{width:0;flex:1;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--ink);}
 .f-team.tr{justify-content:flex-end;flex-direction:row-reverse;text-align:right;}
 .f-team span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .f-mid{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;}
 .f-scores{display:flex;align-items:center;gap:3px;}
-.f-tries{display:flex;align-items:center;gap:2px;}
+.f-final{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:var(--ink);}
+.f-tries-note{font-size:8px;color:var(--silver);}
 .f-in{width:32px;height:25px;text-align:center;font-size:13px;font-weight:700;border:1.5px solid var(--bd2);border-radius:5px;background:var(--sf);color:var(--ink);font-family:'Barlow Condensed',sans-serif;padding:0;-moz-appearance:textfield;}
 .f-in::-webkit-outer-spin-button,.f-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 .f-in:focus{outline:2px solid var(--gold);border-color:transparent;}
 .f-tin{width:24px;height:18px;text-align:center;font-size:10px;border:1px solid var(--bd);border-radius:3px;background:#f4f7fb;color:var(--muted);font-family:'Barlow Condensed',sans-serif;padding:0;-moz-appearance:textfield;}
 .f-tin::-webkit-outer-spin-button,.f-tin::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 .f-tin:focus{background:var(--sf);outline:1px solid var(--gold);}
+.f-tries{display:flex;align-items:center;gap:2px;}
 .f-dash{font-size:11px;font-weight:700;color:var(--silver);}
 .f-meta{font-size:9px;color:var(--silver);text-align:center;line-height:1.4;}
 .f-tries-lbl{font-size:8px;color:var(--silver);text-align:center;letter-spacing:0.2px;}
-.f-row.win-a .f-in:first-of-type{background:#f0fdf5;border-color:var(--green);}
-.f-row.win-b .f-in:last-of-type{background:#f0fdf5;border-color:var(--green);}
-
+.f-row.win-a .f-in:first-of-type{background:var(--green-bg);border-color:var(--green);}
+.f-row.win-b .f-in:last-of-type{background:var(--green-bg);border-color:var(--green);}
 /* ── SCHEDULE ── */
-.sch-rhead{display:flex;align-items:center;gap:10px;margin:18px 0 10px;}
-.sch-rtitle{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:0.4px;}
+.sch-rhead{display:flex;align-items:center;gap:10px;margin:20px 0 10px;}
+.sch-rtitle{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:0.5px;}
 .sch-rbadge{font-size:11px;color:var(--muted);background:var(--pale);border:1px solid var(--bd);padding:2px 10px;border-radius:10px;}
 .sch-day{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);margin-bottom:10px;}
-.sch-date{background:var(--ink);color:var(--gold2);padding:8px 15px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.8px;text-transform:uppercase;}
+.sch-date{background:linear-gradient(90deg,var(--ink),#1a3255);color:var(--gold2);padding:8px 15px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
 .sch-match{display:flex;padding:11px 15px;border-bottom:1px solid var(--bd);gap:12px;align-items:center;}
 .sch-match:last-child{border-bottom:none;}
-.sch-time{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--ink2);min-width:52px;background:var(--pale);padding:4px 7px;border-radius:5px;text-align:center;flex-shrink:0;}
+.sch-time{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--ink2);min-width:56px;background:var(--pale);padding:4px 7px;border-radius:5px;text-align:center;flex-shrink:0;}
 .sch-teams{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
 .sch-t{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink);}
-.sch-meta{font-size:10px;color:var(--silver);margin-top:2px;display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
-.cbadge{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.4px;flex-shrink:0;}
+.sch-t .sc-n{min-width:20px;text-align:right;font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:14px;margin-left:auto;}
+.sch-t.winner .sc-n,.sch-t.winner{color:var(--ink);}
+.sch-t.loser{color:var(--muted);}
+.sch-meta{font-size:10px;color:var(--silver);margin-top:2px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.cbadge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.4px;flex-shrink:0;}
 .cbadge.north{background:var(--north-glow);color:var(--north-lt);}
 .cbadge.south{background:var(--south-glow);color:var(--south-lt);}
-.cbadge.cross{background:rgba(201,150,26,0.08);color:#7a5c00;}
-.sch-score{font-size:13px;font-weight:800;color:var(--ink2);min-width:52px;text-align:right;flex-shrink:0;}
-
+.cbadge.cross{background:rgba(201,150,26,0.1);color:#7a5c00;}
+.sch-score{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--ink2);min-width:56px;text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
 /* ── FINALS ── */
-.finals-hero{background:var(--ink);border-radius:16px;overflow:hidden;position:relative;padding:44px 28px;text-align:center;margin-bottom:18px;}
-.finals-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 50%,rgba(44,82,130,0.22),transparent 55%),radial-gradient(ellipse at 75% 50%,rgba(122,79,10,0.22),transparent 55%);pointer-events:none;}
-.finals-hero::after{content:'GRAND FINAL';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-size:130px;font-weight:900;color:rgba(255,255,255,0.022);white-space:nowrap;pointer-events:none;letter-spacing:4px;}
+.finals-hero{background:linear-gradient(160deg,#0a1524,#12263f 60%,#16304f);border-radius:16px;overflow:hidden;position:relative;padding:44px 28px;text-align:center;margin-bottom:18px;box-shadow:var(--shm);}
+.finals-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 22% 45%,rgba(47,108,180,0.28),transparent 55%),radial-gradient(ellipse at 78% 45%,rgba(192,106,26,0.24),transparent 55%);pointer-events:none;}
+.finals-hero::after{content:'GRAND FINAL';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-size:130px;font-weight:900;color:rgba(255,255,255,0.028);white-space:nowrap;pointer-events:none;letter-spacing:4px;}
 .f-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--gold2);text-transform:uppercase;letter-spacing:3px;margin-bottom:6px;position:relative;opacity:0.9;}
-.f-title{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:4px;position:relative;}
-.f-venue{font-size:12px;color:rgba(255,255,255,0.38);margin-bottom:36px;position:relative;}
+.f-title{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:#fff;letter-spacing:1.5px;margin-bottom:4px;position:relative;}
+.f-venue{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:34px;position:relative;}
 .f-matchup{display:flex;justify-content:center;align-items:center;gap:20px;position:relative;}
-.f-tcard{cursor:pointer;padding:22px 18px;border-radius:12px;border:2px solid rgba(255,255,255,0.07);transition:all 0.2s;width:185px;background:rgba(255,255,255,0.03);}
-.f-tcard:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.18);}
-.f-tcard.n.picked{border-color:var(--north-accent);background:rgba(126,184,232,0.1);}
-.f-tcard.s.picked{border-color:var(--south-accent);background:rgba(212,160,64,0.1);}
+.f-tcard{cursor:pointer;padding:22px 18px;border-radius:13px;border:2px solid rgba(255,255,255,0.08);transition:all 0.2s;width:185px;background:rgba(255,255,255,0.035);}
+.f-tcard:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);transform:translateY(-2px);}
+.f-tcard.n.picked{border-color:var(--north-accent);background:rgba(109,177,236,0.12);}
+.f-tcard.s.picked{border-color:var(--south-accent);background:rgba(240,169,78,0.12);}
 .f-tflag{display:flex;justify-content:center;margin-bottom:12px;}
-.f-flagimg{width:70px;height:50px;border-radius:5px;box-shadow:0 5px 18px rgba(0,0,0,0.35);object-fit:cover;border:1px solid rgba(255,255,255,0.12);}
-.f-tname{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;color:#fff;letter-spacing:0.3px;}
-.f-tconf{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:5px;}
+.f-flagimg{width:70px;height:50px;border-radius:5px;box-shadow:0 6px 20px rgba(0,0,0,0.4);object-fit:cover;border:1px solid rgba(255,255,255,0.14);}
+.f-tname{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;color:#fff;letter-spacing:0.4px;}
+.f-tconf{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-top:5px;}
 .f-tcard.n .f-tconf{color:var(--north-accent);}
 .f-tcard.s .f-tconf{color:var(--south-accent);}
-.f-vs{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:rgba(255,255,255,0.18);flex-shrink:0;}
-.f-hint{font-size:11px;color:rgba(255,255,255,0.28);margin-top:14px;position:relative;}
+.f-vs{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:rgba(255,255,255,0.2);flex-shrink:0;}
+.f-hint{font-size:11px;color:rgba(255,255,255,0.3);margin-top:14px;position:relative;}
 .champ-reveal{margin-top:26px;position:relative;animation:fadein 0.4s ease;}
 .champ-trophy{font-size:36px;margin-bottom:8px;}
-.champ-name{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;color:var(--gold2);letter-spacing:2px;text-shadow:0 0 36px rgba(201,150,26,0.35);}
-.champ-sub{font-size:12px;color:rgba(255,255,255,0.35);margin-top:5px;}
-
+.champ-name{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;color:var(--gold2);letter-spacing:2px;text-shadow:0 0 40px rgba(238,189,58,0.4);}
+.champ-sub{font-size:12px;color:rgba(255,255,255,0.38);margin-top:5px;}
+/* Finals weekend grid */
+.fw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+@media(max-width:720px){.fw-grid{grid-template-columns:1fr;}}
+.fw-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:11px 13px;box-shadow:var(--sh);}
+.fw-card.gf{border:1.5px solid var(--gold);background:#fffdf4;}
+.fw-when{font-size:9px;font-weight:800;color:var(--silver);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;display:flex;justify-content:space-between;}
+.fw-when .gf-tag{color:#7a5c00;}
+.fw-t{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-bottom:3px;}
+.fw-t:last-child{margin-bottom:0;}
 /* ── TEAM PATH ── */
-.psel{margin-bottom:18px;}
-.psel label{font-size:11px;color:var(--ink3);display:block;margin-bottom:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
-.psel select{font-size:14px;padding:10px 36px 10px 13px;width:100%;max-width:360px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf);color:var(--ink);font-family:'Barlow',sans-serif;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.psel{margin-bottom:16px;}
+.psel label{font-size:11px;color:var(--ink3);display:block;margin-bottom:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;}
+.psel select{font-size:14px;padding:10px 36px 10px 13px;width:100%;max-width:360px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf);color:var(--ink);font-family:'Barlow',sans-serif;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;box-shadow:var(--sh);}
 .psel select:focus{outline:2px solid var(--gold);outline-offset:1px;}
-.tprofile{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:16px;display:flex;align-items:center;gap:16px;margin-bottom:18px;box-shadow:var(--sh);}
-.pname{font-family:'Barlow Condensed',sans-serif;font-size:23px;font-weight:900;color:var(--ink);}
-.pmeta{font-size:12px;color:var(--muted);margin-top:3px;}
-.pmeta strong{color:var(--ink3);}
+.tprofile{border-radius:var(--rl);padding:18px;display:flex;align-items:center;gap:16px;margin-bottom:14px;box-shadow:var(--shm);color:#fff;position:relative;overflow:hidden;}
+.tprofile.north{background:linear-gradient(140deg,#173f70,var(--north) 60%,var(--north-lt));}
+.tprofile.south{background:linear-gradient(140deg,#7c3f0a,var(--south) 60%,var(--south-lt));}
+.tprofile::after{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.05);pointer-events:none;}
+.pname{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:0.5px;}
+.pmeta{font-size:12px;color:rgba(255,255,255,0.72);margin-top:3px;}
+.pmeta strong{color:#fff;}
+/* projection banner */
+.proj{border-radius:var(--rl);border:1px solid var(--bd);background:var(--sf);box-shadow:var(--sh);padding:14px 16px;margin-bottom:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.proj-pos{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;line-height:1;flex-shrink:0;min-width:64px;text-align:center;}
+.proj-pos small{display:block;font-size:10px;font-weight:700;color:var(--silver);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.proj-body{flex:1;min-width:200px;}
+.proj-head{font-size:11px;font-weight:800;color:var(--silver);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;}
+.proj-main{font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.proj-sub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6;}
+.proj.p1{border-left:4px solid var(--gold);}
+.proj.pn{border-left:4px solid var(--ink3);}
+/* fixture journey timeline */
+.jrny-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:0.5px;margin:18px 0 10px;}
 .ptl{position:relative;padding-left:26px;}
 .pstep{position:relative;margin-bottom:10px;}
-.pstep::before{content:'';position:absolute;left:-20px;top:16px;bottom:-10px;width:1px;background:var(--bd2);}
+.pstep::before{content:'';position:absolute;left:-20px;top:18px;bottom:-10px;width:2px;background:var(--pale);}
 .pstep:last-child::before{display:none;}
-.sdot{position:absolute;left:-26px;top:10px;width:12px;height:12px;border-radius:50%;border:2px solid var(--gold);background:var(--sf);z-index:1;}
+.sdot{position:absolute;left:-27px;top:12px;width:13px;height:13px;border-radius:50%;border:2.5px solid var(--silver);background:var(--sf);z-index:1;}
 .sdot.win{background:var(--green);border-color:var(--green);}
 .sdot.loss{background:var(--red);border-color:var(--red);}
-.sdot.grp{background:var(--ink3);border-color:var(--ink3);}
-.scard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 13px;box-shadow:var(--sh);}
+.sdot.draw{background:var(--gold);border-color:var(--gold);}
+.sdot.pend{border-color:var(--gold);}
+.sdot.final{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,26,0.2);}
+.scard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 14px;box-shadow:var(--sh);}
 .scard.win{border-left:3px solid var(--green);}
-.scard.loss{border-left:3px solid var(--red);background:var(--red-bg);}
+.scard.loss{border-left:3px solid var(--red);}
+.scard.draw{border-left:3px solid var(--gold);}
 .scard.champ{border-left:3px solid var(--gold);background:#fffcf0;}
-.sround{font-size:10px;color:var(--silver);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px;font-weight:700;}
-.sdetail{font-size:13px;color:var(--ink);display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-weight:600;}
-.sresult{font-size:11px;margin-top:3px;font-weight:600;}
+.scard.finalcard{border:1.5px solid var(--gold);background:#fffdf4;}
+.sround{font-size:10px;color:var(--silver);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:4px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.sdetail{font-size:13.5px;color:var(--ink);display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-weight:600;}
+.sdetail .sscore{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;margin-left:auto;}
+.sscore.w{color:var(--green);} .sscore.l{color:var(--red);} .sscore.d{color:#7a5c00;} .sscore.p{color:var(--silver);font-size:12px;font-weight:600;}
+.svenue{font-size:10.5px;color:var(--silver);margin-top:4px;}
+.ha-chip{font-size:9px;font-weight:800;font-family:'Barlow Condensed',sans-serif;padding:1px 6px;border-radius:3px;letter-spacing:0.5px;}
+.ha-chip.h{background:var(--green-bg);color:var(--green);}
+.ha-chip.a{background:var(--pale);color:var(--ink3);}
+.sresult{font-size:11px;margin-top:4px;font-weight:600;}
 .sresult.adv{color:var(--green);}
-.sresult.elim{color:var(--red);}
+.sresult.mid{color:var(--ink3);}
 .sresult.champ{color:#7a5c00;}
 .noteam{text-align:center;padding:44px 20px;color:var(--muted);font-size:14px;background:var(--sf);border-radius:var(--rl);border:1px dashed var(--bd2);}
-
 .stat-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
-.stat-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 16px;text-align:center;box-shadow:var(--sh);min-width:70px;}
-.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;}
+.stat-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 16px;text-align:center;box-shadow:var(--sh);min-width:72px;flex:1;}
+.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:27px;font-weight:900;}
 .stat-l{font-size:10px;color:var(--silver);font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-top:2px;}
-.match-list{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);}
-.match-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bd);}
-.match-item:last-child{border-bottom:none;}
-
 .footer{text-align:center;padding:22px 20px;font-size:11px;color:var(--silver);line-height:2;}
 .save-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;margin-left:5px;opacity:0;transition:opacity 0.3s;}
 .save-dot.show{opacity:1;}
-.tz-note{font-size:10px;color:var(--muted);text-align:center;margin-bottom:10px;font-style:italic;}
-
+.tz-note{font-size:10px;color:var(--muted);text-align:center;margin-bottom:12px;font-style:italic;}
 @media(max-width:600px){
-  .tb-logo{display:none;}
-  .nav-btn{padding:11px 10px;font-size:12px;}
-  .content{padding:10px;}
-  .sch-match{flex-direction:column;align-items:flex-start;gap:6px;}
-  .f-matchup{flex-direction:column;gap:10px;}
-  .f-tcard{width:100%;}
+  .tb-title{font-size:19px;}
+  .tb-sub{display:none;}
+  .sync-badge span{display:none;}
+  .nav-btn{padding:11px 10px;font-size:12px;}
+  .content{padding:10px;}
+  .sch-match{flex-direction:row;}
+  .f-matchup{flex-direction:column;gap:10px;}
+  .f-tcard{width:100%;}
+  .proj{flex-direction:column;align-items:flex-start;gap:8px;}
 }
 </style>
 </head>
 <body>
 <div class="shell">
-
 <div class="topbar">
   <div class="tb-main">
     <div class="tb-left">
-        <div class="tb-ball" style="background:var(--gold)">🏉</div>
+      <div class="tb-ball">🏉</div>
+      <div>
         <div class="tb-title">Nations Championship 2026</div>
+        <div class="tb-sub">North v South · 36 fixtures · Finals at Twickenham</div>
+      </div>
     </div>
     <div class="tb-right">
-        <button class="btn-reset" onclick="doReset()">↺ Reset</button>
+      <div class="cpill" id="cpill"><span>🏆</span><span id="cpillname"></span></div>
+      <div class="sync-badge" id="syncbadge"><span class="sync-dot" id="syncdot"></span><span id="synctext">checking results…</span></div>
+      <button class="btn-reset" onclick="doReset()">↺ Reset picks</button>
     </div>
   </div>
-  
   <div class="nav">
-    <button class="nav-btn active" onclick="showView('conferences',this)">◫ Conferences</button>
-    <button class="nav-btn" onclick="showView('schedule',this)">📅 Schedule</button>
-    <button class="nav-btn" onclick="showView('path',this)">◈ Team Path</button>
-    <button class="nav-btn" onclick="showView('finals',this)">🏆 Grand Final</button>
+    <button class="nav-btn active" onclick="showView('conferences',this)">Conferences</button>
+    <button class="nav-btn" onclick="showView('schedule',this)">Schedule</button>
+    <button class="nav-btn" onclick="showView('path',this)">Team Path</button>
+    <button class="nav-btn" onclick="showView('finals',this)">Finals Weekend</button>
   </div>
 </div>
-
 <div class="content">
-  <div class="view active" id="vconferences"></div>
-  <div class="view" id="vschedule"></div>
-  <div class="view" id="vpath"></div>
-  <div class="view" id="vfinals"></div>
+  <div class="view active" id="vconferences"></div>
+  <div class="view" id="vschedule"></div>
+  <div class="view" id="vpath"></div>
+  <div class="view" id="vfinals"></div>
 </div>
-
 <div class="footer">World Rugby™ · Nations Championship 2026 · 36 fixtures · Finals Weekend 27–29 Nov · Allianz Stadium, Twickenham · Picks autosave <span class="save-dot" id="savedot"></span></div>
 </div>
-
 <script>
+/* ══════════════════════════════════════════════════════════════
+   LIVE RESULTS SYNC
+   Host a results.json on GitHub (same pattern as the World Cup
+   app) and put the RAW url below, e.g.
+   https://raw.githubusercontent.com/YOUR-USERNAME/nc2026/main/results.json
+   Format:
+   { "updated": "2026-07-06",
+     "results": [ {"id":1,"a":34,"b":32,"ta":4,"tb":3}, ... ] }
+   id = fixture id below · a/b = final score · ta/tb = tries (optional)
+   Official results LOCK those fixtures and override predictions.
+   Round 1 real results are embedded as a fallback.
+   ══════════════════════════════════════════════════════════════ */
+const RESULTS_URL = ""; // ← paste your raw.githubusercontent.com URL here
+const EMBEDDED_RESULTS = [
+  // Round 1 — 4 July 2026 (official)
+  {id:1, a:34, b:32, ta:null, tb:null},  // New Zealand 34–32 France
+  {id:2, a:27, b:10, ta:null, tb:null},  // Japan 27–10 Italy
+  {id:3, a:31, b:33, ta:null, tb:null},  // Australia 31–33 Ireland
+  {id:4, a:24, b:39, ta:null, tb:null},  // Fiji 24–39 Wales
+  {id:5, a:45, b:21, ta:null, tb:null},  // South Africa 45–21 England
+  {id:6, a:38, b:47, ta:null, tb:null},  // Argentina 38–47 Scotland
+];
+
 const ISO={
-  "Ireland":"ie","France":"fr","England":"gb-eng","Scotland":"gb-sct","Wales":"gb-wls","Italy":"it",
-  "South Africa":"za","New Zealand":"nz","Argentina":"ar","Australia":"au","Fiji":"fj","Japan":"jp"
+  "Ireland":"ie","France":"fr","England":"gb-eng","Scotland":"gb-sct","Wales":"gb-wls","Italy":"it",
+  "South Africa":"za","New Zealand":"nz","Argentina":"ar","Australia":"au","Fiji":"fj","Japan":"jp"
 };
 const WR_RANK={
-  "South Africa":1,"Ireland":2,"New Zealand":3,"France":4,"Argentina":5,"England":6,
-  "Scotland":7,"Australia":8,"Fiji":9,"Italy":10,"Wales":11,"Japan":12
+  "South Africa":1,"Ireland":2,"New Zealand":3,"France":4,"Argentina":5,"England":6,
+  "Scotland":7,"Australia":8,"Fiji":9,"Italy":10,"Wales":11,"Japan":12
 };
 const NORTH=["Ireland","France","England","Scotland","Wales","Italy"];
 const SOUTH=["South Africa","New Zealand","Argentina","Australia","Fiji","Japan"];
-
 // utcOffset = offset of the VENUE on that date (for browser local time conversion)
 const FIXTURES=[
-  // Round 1 — 4 July
-  {id:1,  y:2026,mo:7,da:4,  t:"19:10",utcOff:+12, v:"One New Zealand Stadium, Christchurch", a:"New Zealand",  b:"France",       round:"J"},
-  {id:2,  y:2026,mo:7,da:4,  t:"17:40",utcOff:+9,  v:"Chichibunomiya Stadium, Tokyo",         a:"Japan",         b:"Italy",        round:"J"},
-  {id:3,  y:2026,mo:7,da:4,  t:"20:10",utcOff:+10, v:"Sydney Football Stadium, Sydney",       a:"Australia",     b:"Ireland",      round:"J"},
-  {id:4,  y:2026,mo:7,da:4,  t:"14:10",utcOff:+1,  v:"Cardiff City Stadium, Cardiff",         a:"Fiji",          b:"Wales",        round:"J"},
-  {id:5,  y:2026,mo:7,da:4,  t:"17:40",utcOff:+2,  v:"Ellis Park, Johannesburg",              a:"South Africa",  b:"England",      round:"J"},
-  {id:6,  y:2026,mo:7,da:4,  t:"16:10",utcOff:-3,  v:"Estadio Mario Kempes, Córdoba",         a:"Argentina",     b:"Scotland",     round:"J"},
-  // Round 2 — 11 July
-  {id:7,  y:2026,mo:7,da:11, t:"17:10",utcOff:+12, v:"Sky Stadium, Wellington",               a:"New Zealand",   b:"Italy",        round:"J"},
-  {id:8,  y:2026,mo:7,da:11, t:"17:40",utcOff:+10, v:"Suncorp Stadium, Brisbane",             a:"Australia",     b:"France",       round:"J"},
-  {id:9,  y:2026,mo:7,da:11, t:"20:10",utcOff:+10, v:"McDonald Jones Stadium, Newcastle",     a:"Japan",         b:"Ireland",      round:"J"},
-  {id:10, y:2026,mo:7,da:11, t:"14:10",utcOff:+1,  v:"Hill Dickinson Stadium, Liverpool",     a:"Fiji",          b:"England",      round:"J"},
-  {id:11, y:2026,mo:7,da:11, t:"17:40",utcOff:+2,  v:"Loftus Versfeld, Pretoria",             a:"South Africa",  b:"Scotland",     round:"J"},
-  {id:12, y:2026,mo:7,da:11, t:"16:10",utcOff:-3,  v:"Estadio Bicentenario, San Juan",        a:"Argentina",     b:"Wales",        round:"J"},
-  // Round 3 — 18 July
-  {id:13, y:2026,mo:7,da:18, t:"19:10",utcOff:+12, v:"Eden Park, Auckland",                   a:"New Zealand",   b:"Ireland",      round:"J"},
-  {id:14, y:2026,mo:7,da:18, t:"17:40",utcOff:+9,  v:"National Stadium, Tokyo",               a:"Japan",         b:"France",       round:"J"},
-  {id:15, y:2026,mo:7,da:18, t:"20:10",utcOff:+8,  v:"HBF Park, Perth",                       a:"Australia",     b:"Italy",        round:"J"},
-  {id:16, y:2026,mo:7,da:18, t:"14:10",utcOff:+1,  v:"Murrayfield, Edinburgh",                a:"Fiji",          b:"Scotland",     round:"J"},
-  {id:17, y:2026,mo:7,da:18, t:"17:40",utcOff:+2,  v:"Kings Park Stadium, Durban",            a:"South Africa",  b:"Wales",        round:"J"},
-  {id:18, y:2026,mo:7,da:18, t:"16:10",utcOff:-3,  v:"Estadio Madre de Ciudades, Santiago del Estero",a:"Argentina",b:"England",   round:"J"},
-  // Round 4 — 6–8 November
-  {id:19, y:2026,mo:11,da:6, t:"20:10",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"Argentina",    round:"N"},
-  {id:20, y:2026,mo:11,da:7, t:"12:40",utcOff:+1,  v:"Estadio Camilo Cano, La Nucia",         a:"Italy",         b:"South Africa", round:"N"},
-  {id:21, y:2026,mo:11,da:7, t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"New Zealand",  round:"N"},
-  {id:22, y:2026,mo:11,da:7, t:"16:40",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Japan",        round:"N"},
-  {id:23, y:2026,mo:11,da:7, t:"20:10",utcOff:+1,  v:"Parc Olympique Lyonnais, Lyon",         a:"France",        b:"Fiji",         round:"N"},
-  {id:24, y:2026,mo:11,da:8, t:"15:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Australia",    round:"N"},
-  // Round 5 — 13–15 November
-  {id:25, y:2026,mo:11,da:13,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"South Africa", round:"N"},
-  {id:26, y:2026,mo:11,da:14,t:"12:40",utcOff:+1,  v:"Stadio Luigi Ferraris, Genoa",          a:"Italy",         b:"Argentina",    round:"N"},
-  {id:27, y:2026,mo:11,da:14,t:"14:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"New Zealand",  round:"N"},
-  {id:28, y:2026,mo:11,da:14,t:"16:40",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Japan",        round:"N"},
-  {id:29, y:2026,mo:11,da:14,t:"20:10",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"Fiji",         round:"N"},
-  {id:30, y:2026,mo:11,da:15,t:"15:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"Australia",    round:"N"},
-  // Round 6 — 21 November
-  {id:31, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"Japan",        round:"N"},
-  {id:32, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"New Zealand",  round:"N"},
-  {id:33, y:2026,mo:11,da:21,t:"16:40",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"South Africa", round:"N"},
-  {id:34, y:2026,mo:11,da:21,t:"16:40",utcOff:+1,  v:"Stadio Friuli, Udine",                  a:"Italy",         b:"Fiji",         round:"N"},
-  {id:35, y:2026,mo:11,da:21,t:"20:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Australia",    round:"N"},
-  {id:36, y:2026,mo:11,da:21,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"Argentina",    round:"N"},
+  // Round 1 — 4 July
+  {id:1,  y:2026,mo:7,da:4,  t:"19:10",utcOff:+12, v:"One New Zealand Stadium, Christchurch", a:"New Zealand",  b:"France",       round:"J"},
+  {id:2,  y:2026,mo:7,da:4,  t:"17:40",utcOff:+9,  v:"Chichibunomiya Stadium, Tokyo",         a:"Japan",         b:"Italy",        round:"J"},
+  {id:3,  y:2026,mo:7,da:4,  t:"20:10",utcOff:+10, v:"Sydney Football Stadium, Sydney",       a:"Australia",     b:"Ireland",      round:"J"},
+  {id:4,  y:2026,mo:7,da:4,  t:"14:10",utcOff:+1,  v:"Cardiff City Stadium, Cardiff",         a:"Fiji",          b:"Wales",        round:"J"},
+  {id:5,  y:2026,mo:7,da:4,  t:"17:40",utcOff:+2,  v:"Ellis Park, Johannesburg",              a:"South Africa",  b:"England",      round:"J"},
+  {id:6,  y:2026,mo:7,da:4,  t:"16:10",utcOff:-3,  v:"Estadio Mario Kempes, Córdoba",         a:"Argentina",     b:"Scotland",     round:"J"},
+  // Round 2 — 11 July
+  {id:7,  y:2026,mo:7,da:11, t:"17:10",utcOff:+12, v:"Sky Stadium, Wellington",               a:"New Zealand",   b:"Italy",        round:"J"},
+  {id:8,  y:2026,mo:7,da:11, t:"17:40",utcOff:+10, v:"Suncorp Stadium, Brisbane",             a:"Australia",     b:"France",       round:"J"},
+  {id:9,  y:2026,mo:7,da:11, t:"20:10",utcOff:+10, v:"McDonald Jones Stadium, Newcastle",     a:"Japan",         b:"Ireland",      round:"J"},
+  {id:10, y:2026,mo:7,da:11, t:"14:10",utcOff:+1,  v:"Hill Dickinson Stadium, Liverpool",     a:"Fiji",          b:"England",      round:"J"},
+  {id:11, y:2026,mo:7,da:11, t:"17:40",utcOff:+2,  v:"Loftus Versfeld, Pretoria",             a:"South Africa",  b:"Scotland",     round:"J"},
+  {id:12, y:2026,mo:7,da:11, t:"16:10",utcOff:-3,  v:"Estadio Bicentenario, San Juan",        a:"Argentina",     b:"Wales",        round:"J"},
+  // Round 3 — 18 July
+  {id:13, y:2026,mo:7,da:18, t:"19:10",utcOff:+12, v:"Eden Park, Auckland",                   a:"New Zealand",   b:"Ireland",      round:"J"},
+  {id:14, y:2026,mo:7,da:18, t:"17:40",utcOff:+9,  v:"National Stadium, Tokyo",               a:"Japan",         b:"France",       round:"J"},
+  {id:15, y:2026,mo:7,da:18, t:"20:10",utcOff:+8,  v:"HBF Park, Perth",                       a:"Australia",     b:"Italy",        round:"J"},
+  {id:16, y:2026,mo:7,da:18, t:"14:10",utcOff:+1,  v:"Murrayfield, Edinburgh",                a:"Fiji",          b:"Scotland",     round:"J"},
+  {id:17, y:2026,mo:7,da:18, t:"17:40",utcOff:+2,  v:"Kings Park Stadium, Durban",            a:"South Africa",  b:"Wales",        round:"J"},
+  {id:18, y:2026,mo:7,da:18, t:"16:10",utcOff:-3,  v:"Estadio Madre de Ciudades, Santiago del Estero",a:"Argentina",b:"England",   round:"J"},
+  // Round 4 — 6–8 November
+  {id:19, y:2026,mo:11,da:6, t:"20:10",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"Argentina",    round:"N"},
+  {id:20, y:2026,mo:11,da:7, t:"12:40",utcOff:+1,  v:"Estadio Camilo Cano, La Nucia",         a:"Italy",         b:"South Africa", round:"N"},
+  {id:21, y:2026,mo:11,da:7, t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"New Zealand",  round:"N"},
+  {id:22, y:2026,mo:11,da:7, t:"16:40",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Japan",        round:"N"},
+  {id:23, y:2026,mo:11,da:7, t:"20:10",utcOff:+1,  v:"Parc Olympique Lyonnais, Lyon",         a:"France",        b:"Fiji",         round:"N"},
+  {id:24, y:2026,mo:11,da:8, t:"15:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Australia",    round:"N"},
+  // Round 5 — 13–15 November
+  {id:25, y:2026,mo:11,da:13,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"South Africa", round:"N"},
+  {id:26, y:2026,mo:11,da:14,t:"12:40",utcOff:+1,  v:"Stadio Luigi Ferraris, Genoa",          a:"Italy",         b:"Argentina",    round:"N"},
+  {id:27, y:2026,mo:11,da:14,t:"14:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"New Zealand",  round:"N"},
+  {id:28, y:2026,mo:11,da:14,t:"16:40",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Japan",        round:"N"},
+  {id:29, y:2026,mo:11,da:14,t:"20:10",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"Fiji",         round:"N"},
+  {id:30, y:2026,mo:11,da:15,t:"15:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"Australia",    round:"N"},
+  // Round 6 — 21 November
+  {id:31, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"Japan",        round:"N"},
+  {id:32, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"New Zealand",  round:"N"},
+  {id:33, y:2026,mo:11,da:21,t:"16:40",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"South Africa", round:"N"},
+  {id:34, y:2026,mo:11,da:21,t:"16:40",utcOff:+1,  v:"Stadio Friuli, Udine",                  a:"Italy",         b:"Fiji",         round:"N"},
+  {id:35, y:2026,mo:11,da:21,t:"20:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Australia",    round:"N"},
+  {id:36, y:2026,mo:11,da:21,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"Argentina",    round:"N"},
 ];
-
+// Finals weekend — each finishing position meets its counterpart (per World Rugby)
+const FINALS_SLOTS={
+  1:{day:"Sun 29 Nov",time:"16:40",label:"Grand Final"},
+  2:{day:"Sat 28 Nov",time:"16:40",label:"2nd-place Final"},
+  3:{day:"Fri 27 Nov",time:"20:10",label:"3rd-place Final"},
+  4:{day:"Sun 29 Nov",time:"13:10",label:"4th-place Final"},
+  5:{day:"Sat 28 Nov",time:"13:10",label:"5th-place Final"},
+  6:{day:"Fri 27 Nov",time:"16:40",label:"6th-place Final"},
+};
+const ORD=["1st","2nd","3rd","4th","5th","6th"];
+function roundNum(f){return Math.ceil(f.id/6);}
 // Convert venue local time → JS Date (for browser local rendering)
 function toDate(f){
-  const [h,m]=f.t.split(':').map(Number);
-  const offsetMs=f.utcOff*3600000;
-  const localMs=Date.UTC(f.y,f.mo-1,f.da,h,m,0);
-  return new Date(localMs-offsetMs);
+  const [h,m]=f.t.split(':').map(Number);
+  return new Date(Date.UTC(f.y,f.mo-1,f.da,h,m,0)-f.utcOff*3600000);
 }
-function fmtTime(f){
-  return toDate(f).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-}
-function fmtDate(f){
-  return toDate(f).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});
-}
-function fmtDateKey(f){ // for grouping in schedule
-  return toDate(f).toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});
-}
-
+function fmtTime(f){return toDate(f).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}
+function fmtDate(f){return toDate(f).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});}
+function fmtDateKey(f){return toDate(f).toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});}
 function fixtureConf(f){
-  if(NORTH.includes(f.a)&&NORTH.includes(f.b)) return "north";
-  if(SOUTH.includes(f.a)&&SOUTH.includes(f.b)) return "south";
-  return "cross";
+  if(NORTH.includes(f.a)&&NORTH.includes(f.b)) return "north";
+  if(SOUTH.includes(f.a)&&SOUTH.includes(f.b)) return "south";
+  return "cross";
 }
-
 // ── STATE ──
 let PREDICTION_MODE="quick";
 let GR_NORTH=[],GR_SOUTH=[];
 let SCORES={};
+let RESULTS={};              // official results, keyed by fixture id
+let SYNC_STATE={status:"embedded",updated:null};
 let CHAMPION_PICK=null;
 let SEL_TEAM=null;
-
 function initGR(){
-  if(!GR_NORTH.length) GR_NORTH=[...NORTH].sort((a,b)=>WR_RANK[a]-WR_RANK[b]);
-  if(!GR_SOUTH.length) GR_SOUTH=[...SOUTH].sort((a,b)=>WR_RANK[a]-WR_RANK[b]);
+  if(!GR_NORTH.length) GR_NORTH=[...NORTH].sort((a,b)=>WR_RANK[a]-WR_RANK[b]);
+  if(!GR_SOUTH.length) GR_SOUTH=[...SOUTH].sort((a,b)=>WR_RANK[a]-WR_RANK[b]);
 }
-function save(){localStorage.setItem("nc26_v4",JSON.stringify({PREDICTION_MODE,GR_NORTH,GR_SOUTH,SCORES,CHAMPION_PICK}));flashSave();}
+function save(){localStorage.setItem("nc26_v5",JSON.stringify({PREDICTION_MODE,GR_NORTH,GR_SOUTH,SCORES,CHAMPION_PICK}));flashSave();}
 function load(){
-  const d=JSON.parse(localStorage.getItem("nc26_v4")||"null");
-  if(d){
-    if(d.PREDICTION_MODE) PREDICTION_MODE=d.PREDICTION_MODE;
-    if(d.GR_NORTH&&d.GR_NORTH.length===6) GR_NORTH=d.GR_NORTH;
-    if(d.GR_SOUTH&&d.GR_SOUTH.length===6) GR_SOUTH=d.GR_SOUTH;
-    if(d.SCORES) SCORES=d.SCORES;
-    if(d.CHAMPION_PICK) CHAMPION_PICK=d.CHAMPION_PICK;
-  }
-  initGR();
+  const d=JSON.parse(localStorage.getItem("nc26_v5")||localStorage.getItem("nc26_v4")||"null");
+  if(d){
+    if(d.PREDICTION_MODE) PREDICTION_MODE=d.PREDICTION_MODE;
+    if(d.GR_NORTH&&d.GR_NORTH.length===6) GR_NORTH=d.GR_NORTH;
+    if(d.GR_SOUTH&&d.GR_SOUTH.length===6) GR_SOUTH=d.GR_SOUTH;
+    if(d.SCORES) SCORES=d.SCORES;
+    if(d.CHAMPION_PICK) CHAMPION_PICK=d.CHAMPION_PICK;
+  }
+  initGR();
 }
 function flashSave(){const dot=document.getElementById("savedot");if(dot){dot.classList.add("show");setTimeout(()=>dot.classList.remove("show"),1200);}}
-
+// ── RESULTS SYNC ──
+function applyResults(list){
+  (list||[]).forEach(r=>{
+    if(r&&r.id!=null&&r.a!=null&&r.b!=null&&r.a!==""&&r.b!==""){
+      RESULTS[r.id]={a:+r.a,b:+r.b,ta:(r.ta==null||r.ta==="")?null:+r.ta,tb:(r.tb==null||r.tb==="")?null:+r.tb};
+    }
+  });
+}
+function updateSyncBadge(){
+  const dot=document.getElementById("syncdot"),txt=document.getElementById("synctext");
+  if(!dot||!txt) return;
+  const n=Object.keys(RESULTS).length;
+  dot.className="sync-dot "+SYNC_STATE.status;
+  if(SYNC_STATE.status==="live") txt.textContent=`live · ${n}/36 results${SYNC_STATE.updated?" · upd "+SYNC_STATE.updated:""}`;
+  else if(SYNC_STATE.status==="offline") txt.textContent=`offline · ${n}/36 built-in results`;
+  else txt.textContent=`${n}/36 official results`;
+}
+async function syncResults(){
+  applyResults(EMBEDDED_RESULTS);
+  SYNC_STATE.status="embedded";
+  if(RESULTS_URL){
+    try{
+      const res=await fetch(RESULTS_URL+(RESULTS_URL.includes("?")?"&":"?")+"t="+Date.now(),{cache:"no-store"});
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const data=await res.json();
+      applyResults(Array.isArray(data)?data:(data.results||data.matches||[]));
+      SYNC_STATE={status:"live",updated:(data&&data.updated)||null};
+    }catch(e){ SYNC_STATE.status="offline"; }
+  }
+  updateSyncBadge();
+  rerenderActive();
+}
+// Effective score for a fixture: official result wins, else user prediction
+function getScore(f){
+  const r=RESULTS[f.id];
+  if(r) return {a:r.a,b:r.b,ta:r.ta,tb:r.tb,official:true};
+  const sc=SCORES[f.id];
+  if(sc&&sc.a!==""&&sc.b!=="") return {a:parseInt(sc.a)||0,b:parseInt(sc.b)||0,ta:sc.ta===""?null:parseInt(sc.ta)||0,tb:sc.tb===""?null:parseInt(sc.tb)||0,official:false};
+  return null;
+}
 // ── FLAGS ──
 function fimg(t,cls){
   if(!t||t==="TBD") return `<span class="fb">TBD</span>`;
   const c=ISO[t];
-  const w=cls==="fi-xl"?160:cls==="fi-lg"?80:40;
+  const w=cls==="fi-lg"?80:40;
   if(!c) return `<span class="fb">${(t||"").slice(0,3).toUpperCase()}</span>`;
   return `<img class="${cls||'fi'}" src="https://flagcdn.com/w${w}/${c}.png" alt="${t}" onerror="this.outerHTML='<span class=fb>${(t||"").slice(0,3).toUpperCase()}</span>'" loading="lazy">`;
 }
-
 // ── STANDINGS ──
 function calcStandings(teams){
-  let s=teams.map(t=>({name:t,p:0,w:0,d:0,l:0,pf:0,pa:0,pd:0,tf:0,pts:0}));
-  FIXTURES.forEach(f=>{
-    const sc=SCORES[f.id];
-    if(!sc||sc.a===""||sc.b==="") return;
-    const sa=parseInt(sc.a)||0,sb=parseInt(sc.b)||0;
-    const ta=parseInt(sc.ta)||0,tb=parseInt(sc.tb)||0;
-    let tA=s.find(x=>x.name===f.a),tB=s.find(x=>x.name===f.b);
-    if(!tA&&!tB) return;
-    let pA=0,pB=0;
-    if(tA){tA.p++;tA.pf+=sa;tA.pa+=sb;tA.pd+=(sa-sb);tA.tf+=ta;}
-    if(tB){tB.p++;tB.pf+=sb;tB.pa+=sa;tB.pd+=(sb-sa);tB.tf+=tb;}
-    if(sa>sb){if(tA){tA.w++;pA=4;}if(tB){tB.l++;if(sa-sb<=7)pB=1;}}
-    else if(sb>sa){if(tB){tB.w++;pB=4;}if(tA){tA.l++;if(sb-sa<=7)pA=1;}}
-    else{if(tA){tA.d++;pA=2;}if(tB){tB.d++;pB=2;}}
-    if(ta>=4) pA+=1;
-    if(tb>=4) pB+=1;
-    if(tA) tA.pts+=pA;
-    if(tB) tB.pts+=pB;
-  });
-  return s.sort((a,b)=>b.pts-a.pts||b.pd-a.pd||b.pf-a.pf||WR_RANK[a.name]-WR_RANK[b.name]);
+  let s=teams.map(t=>({name:t,p:0,w:0,d:0,l:0,pf:0,pa:0,pd:0,tf:0,pts:0}));
+  FIXTURES.forEach(f=>{
+    const sc=getScore(f);
+    if(!sc) return;
+    const sa=sc.a,sb=sc.b,ta=sc.ta||0,tb=sc.tb||0;
+    let tA=s.find(x=>x.name===f.a),tB=s.find(x=>x.name===f.b);
+    if(!tA&&!tB) return;
+    let pA=0,pB=0;
+    if(tA){tA.p++;tA.pf+=sa;tA.pa+=sb;tA.pd+=(sa-sb);tA.tf+=ta;}
+    if(tB){tB.p++;tB.pf+=sb;tB.pa+=sa;tB.pd+=(sb-sa);tB.tf+=tb;}
+    if(sa>sb){if(tA){tA.w++;pA=4;}if(tB){tB.l++;if(sa-sb<=7)pB=1;}}
+    else if(sb>sa){if(tB){tB.w++;pB=4;}if(tA){tA.l++;if(sb-sa<=7)pA=1;}}
+    else{if(tA){tA.d++;pA=2;}if(tB){tB.d++;pB=2;}}
+    if(ta>=4) pA+=1;
+    if(tb>=4) pB+=1;
+    if(tA) tA.pts+=pA;
+    if(tB) tB.pts+=pB;
+  });
+  return s.sort((a,b)=>b.pts-a.pts||b.pd-a.pd||b.pf-a.pf||WR_RANK[a.name]-WR_RANK[b.name]);
 }
-
-function getWinner(teams){
-  if(PREDICTION_MODE==="match") return calcStandings(teams)[0].name;
-  return teams===NORTH?GR_NORTH[0]:GR_SOUTH[0];
+// Projected finishing order for a conference, honouring the current mode
+function projectedOrder(confTeams){
+  if(PREDICTION_MODE==="match") return calcStandings(confTeams).map(x=>x.name);
+  return confTeams===NORTH?[...GR_NORTH]:[...GR_SOUTH];
 }
-
+function getWinner(teams){return projectedOrder(teams)[0];}
 // ── VIEW ROUTING ──
 function showView(v,btn){
-  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
-  document.getElementById("v"+v).classList.add("active");
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  if(v==="conferences") renderConferences();
-  if(v==="schedule") renderSchedule();
-  if(v==="path") renderPath();
-  if(v==="finals") renderFinals();
-  updatePill();
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
+  document.getElementById("v"+v).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderView(v);
+  updatePill();
+}
+function renderView(v){
+  if(v==="conferences") renderConferences();
+  if(v==="schedule") renderSchedule();
+  if(v==="path") renderPath();
+  if(v==="finals") renderFinals();
+}
+function rerenderActive(){
+  const av=document.querySelector(".view.active");
+  if(av) renderView(av.id.slice(1));
+  updatePill();
 }
 function setMode(m){if(PREDICTION_MODE===m)return;PREDICTION_MODE=m;save();renderConferences();updatePill();}
-
 // ── CONFERENCES ──
 function renderConferences(){
-  const el=document.getElementById("vconferences");
-  const hint=PREDICTION_MODE==="quick"
-    ?"<strong>Quick Rank Mode:</strong> Use ▲▼ to set your predicted finishing order for each conference."
-    :"<strong>Match Predictor Mode:</strong> Enter scores to auto-calculate standings using World Rugby bonus point rules (4 win, 2 draw, +1 losing within 7, +1 for 4+ tries). Enter try counts in the small boxes.";
-  el.innerHTML=`<div class="mode-toggle">
-    <button class="mt-btn ${PREDICTION_MODE==="quick"?"active":""}" onclick="setMode('quick')">⚡ Quick Rank</button>
-    <button class="mt-btn ${PREDICTION_MODE==="match"?"active":""}" onclick="setMode('match')">🔢 Match Predictor</button>
-  </div><div class="hint">${hint}</div>
-  <div class="tz-note">All kick-off times shown in <strong>your local timezone</strong></div>
-  <div class="conf-grid"><div id="cn"></div><div id="cs"></div></div>`;
-  renderCard("cn","north",NORTH,"🌍 Northern Conference",GR_NORTH);
-  renderCard("cs","south",SOUTH,"🌏 Southern Conference",GR_SOUTH);
+  const el=document.getElementById("vconferences");
+  const hint=PREDICTION_MODE==="quick"
+    ?"<strong>Quick Rank Mode:</strong> Use ▲▼ to set your predicted finishing order for each conference. Fixtures with a <span class='ft-badge'>FT</span> badge are official results already played."
+    :"<strong>Match Predictor Mode:</strong> Enter scores to auto-calculate standings using World Rugby bonus point rules (4 win, 2 draw, +1 losing within 7, +1 for 4+ tries). Official results (<span class='ft-badge'>FT</span>) are locked and included automatically.";
+  el.innerHTML=`<div class="mode-toggle">
+    <button class="mt-btn ${PREDICTION_MODE==="quick"?"active":""}" onclick="setMode('quick')">⚡ Quick Rank</button>
+    <button class="mt-btn ${PREDICTION_MODE==="match"?"active":""}" onclick="setMode('match')">🔢 Match Predictor</button>
+  </div><div class="hint">${hint}</div>
+  <div class="tz-note">All kick-off times shown in <strong>your local timezone</strong></div>
+  <div class="conf-grid"><div id="cn"></div><div id="cs"></div></div>`;
+  renderCard("cn","north",NORTH,"🌍 Northern Conference",GR_NORTH);
+  renderCard("cs","south",SOUTH,"🌏 Southern Conference",GR_SOUTH);
 }
-
 function renderCard(elId,ck,teams,title,gr){
-  const el=document.getElementById(elId);if(!el)return;
-  let html=`<div class="conf-card"><div class="conf-head ${ck}"><span>${title}</span><span class="chsub">${PREDICTION_MODE==="match"?"Live Standings":"Ranked"}</span></div>`;
-
-  if(PREDICTION_MODE==="quick"){
-    html+=`<div>`;
-    gr.forEach((t,i)=>{
-      html+=`<div class="trow ${i===0?"leader":""}">
-        <span class="rnum">${i+1}</span>
-        <span class="tname">${fimg(t,"fi")} <span>${t}</span></span>
-        <div class="mbtn">
-          <button class="mb" onclick="moveTeam('${ck}',${i},-1)" ${i===0?"disabled":""}>▲</button>
-          <button class="mb" onclick="moveTeam('${ck}',${i},1)" ${i===gr.length-1?"disabled":""}>▼</button>
-        </div></div>`;
-    });
-    html+=`</div>`;
-  } else {
-    const data=calcStandings(teams);
-    html+=`<table class="rtable"><thead><tr>
-      <th style="width:24px;padding-left:10px;">#</th>
-      <th>Team</th>
-      <th class="rc">P</th><th class="rc">PD</th><th class="rc">T</th><th class="rc">Pts</th>
-    </tr></thead><tbody>`;
-    data.forEach((t,i)=>{
-      const pd=t.pd>0?`+${t.pd}`:`${t.pd}`;
-      const pdc=t.pd>0?"pd-pos":t.pd<0?"pd-neg":"";
-      html+=`<tr class="${i===0?"leader":""}">
-        <td><span class="rnum">${i+1}</span></td>
-        <td><div class="t-cell">${fimg(t.name,"fi")} ${t.name}</div></td>
-        <td class="rc">${t.p}</td>
-        <td class="rc ${pdc}">${pd}</td>
-        <td class="rc">${t.tf}</td>
-        <td class="rc pts-bold">${t.pts}</td>
-      </tr>`;
-    });
-    html+=`</tbody></table>`;
-  }
-
-  // Fixtures
-  const cfx=FIXTURES.filter(f=>teams.includes(f.a)||teams.includes(f.b));
-  html+=`<div class="fix-panel">`;
-  let lastRound=null;
-  cfx.forEach(f=>{
-    const rl=f.round==="J"?"July Series":"November Series";
-    if(rl!==lastRound){html+=`<div class="fix-rlabel">${rl}</div>`;lastRound=rl;}
-    const sc=SCORES[f.id]||{a:"",b:"",ta:"",tb:""};
-    const sa=sc.a!==""?parseInt(sc.a):null,sb=sc.b!==""?parseInt(sc.b):null;
-    const wc=sa!==null&&sb!==null?(sa>sb?"win-a":sb>sa?"win-b":""):"";
-    html+=`<div class="f-row ${wc}">
-      <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
-      <div class="f-mid">
-        <div class="f-scores">
-          <input class="f-in" type="number" min="0" value="${sc.a}" placeholder="–" oninput="updS(${f.id},'a',this.value)">
-          <span class="f-dash">–</span>
-          <input class="f-in" type="number" min="0" value="${sc.b}" placeholder="–" oninput="updS(${f.id},'b',this.value)">
-        </div>
-        ${PREDICTION_MODE==="match"?`<div class="f-tries">
-          <input class="f-tin" type="number" min="0" value="${sc.ta}" placeholder="T" title="Tries — ${f.a}" oninput="updS(${f.id},'ta',this.value)">
-          <span class="f-tries-lbl">tries</span>
-          <input class="f-tin" type="number" min="0" value="${sc.tb}" placeholder="T" title="Tries — ${f.b}" oninput="updS(${f.id},'tb',this.value)">
-        </div>`:""}
-        <div class="f-meta">${fmtDate(f)} · ${fmtTime(f)}</div>
-      </div>
-      <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
-    </div>`;
-  });
-  html+=`</div></div>`;
-  el.innerHTML=html;
+  const el=document.getElementById(elId);if(!el)return;
+  let html=`<div class="conf-card"><div class="conf-head ${ck}"><span>${title}</span><span class="chsub">${PREDICTION_MODE==="match"?"Live Standings":"Your Ranking"}</span></div>`;
+  if(PREDICTION_MODE==="quick"){
+    html+=`<div>`;
+    gr.forEach((t,i)=>{
+      html+=`<div class="trow ${i===0?"leader":""}">
+        <span class="rnum">${i+1}</span>
+        <span class="tname">${fimg(t,"fi")} <span>${t}</span></span>
+        <div class="mbtn">
+          <button class="mb" onclick="moveTeam('${ck}',${i},-1)" ${i===0?"disabled":""}>▲</button>
+          <button class="mb" onclick="moveTeam('${ck}',${i},1)" ${i===gr.length-1?"disabled":""}>▼</button>
+        </div></div>`;
+    });
+    html+=`</div>`;
+  } else {
+    const data=calcStandings(teams);
+    html+=`<table class="rtable"><thead><tr>
+      <th style="width:24px;padding-left:10px;">#</th>
+      <th>Team</th>
+      <th class="rc">P</th><th class="rc">PD</th><th class="rc">T</th><th class="rc">Pts</th>
+    </tr></thead><tbody>`;
+    data.forEach((t,i)=>{
+      const pd=t.pd>0?`+${t.pd}`:`${t.pd}`;
+      const pdc=t.pd>0?"pd-pos":t.pd<0?"pd-neg":"";
+      html+=`<tr class="${i===0?"leader":""}">
+        <td><span class="rnum">${i+1}</span></td>
+        <td><div class="t-cell">${fimg(t.name,"fi")} ${t.name}</div></td>
+        <td class="rc">${t.p}</td>
+        <td class="rc ${pdc}">${pd}</td>
+        <td class="rc">${t.tf}</td>
+        <td class="rc pts-bold">${t.pts}</td>
+      </tr>`;
+    });
+    html+=`</tbody></table>`;
+  }
+  // Fixtures
+  const cfx=FIXTURES.filter(f=>teams.includes(f.a)||teams.includes(f.b));
+  html+=`<div class="fix-panel">`;
+  let lastRound=null;
+  cfx.forEach(f=>{
+    const rl=f.round==="J"?"July Series":"November Series";
+    if(rl!==lastRound){html+=`<div class="fix-rlabel">${rl}</div>`;lastRound=rl;}
+    const off=RESULTS[f.id];
+    if(off){
+      html+=`<div class="f-row official">
+        <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
+        <div class="f-mid">
+          <div class="f-final"><span>${off.a}</span><span class="ft-badge">FT</span><span>${off.b}</span></div>
+          ${off.ta!=null?`<div class="f-tries-note">tries ${off.ta}–${off.tb}</div>`:""}
+          <div class="f-meta">${fmtDate(f)}</div>
+        </div>
+        <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
+      </div>`;
+      return;
+    }
+    const sc=SCORES[f.id]||{a:"",b:"",ta:"",tb:""};
+    const sa=sc.a!==""?parseInt(sc.a):null,sb=sc.b!==""?parseInt(sc.b):null;
+    const wc=sa!==null&&sb!==null?(sa>sb?"win-a":sb>sa?"win-b":""):"";
+    html+=`<div class="f-row ${wc}">
+      <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
+      <div class="f-mid">
+        <div class="f-scores">
+          <input class="f-in" type="number" min="0" value="${sc.a}" placeholder="–" oninput="updS(${f.id},'a',this.value)">
+          <span class="f-dash">–</span>
+          <input class="f-in" type="number" min="0" value="${sc.b}" placeholder="–" oninput="updS(${f.id},'b',this.value)">
+        </div>
+        ${PREDICTION_MODE==="match"?`<div class="f-tries">
+          <input class="f-tin" type="number" min="0" value="${sc.ta}" placeholder="T" title="Tries — ${f.a}" oninput="updS(${f.id},'ta',this.value)">
+          <span class="f-tries-lbl">tries</span>
+          <input class="f-tin" type="number" min="0" value="${sc.tb}" placeholder="T" title="Tries — ${f.b}" oninput="updS(${f.id},'tb',this.value)">
+        </div>`:""}
+        <div class="f-meta">${fmtDate(f)} · ${fmtTime(f)}</div>
+      </div>
+      <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+  el.innerHTML=html;
 }
-
 function moveTeam(ck,idx,dir){
-  const arr=ck==="north"?GR_NORTH:GR_SOUTH,ni=idx+dir;
-  if(ni<0||ni>=arr.length)return;
-  [arr[idx],arr[ni]]=[arr[ni],arr[idx]];save();renderConferences();
+  const arr=ck==="north"?GR_NORTH:GR_SOUTH,ni=idx+dir;
+  if(ni<0||ni>=arr.length)return;
+  [arr[idx],arr[ni]]=[arr[ni],arr[idx]];save();renderConferences();
 }
 function updS(id,side,val){
-  if(!SCORES[id]) SCORES[id]={a:"",b:"",ta:"",tb:""};
-  SCORES[id][side]=val===""?"":(parseInt(val)>=0?val:"");
-  save();renderConferences();updatePill();
+  if(!SCORES[id]) SCORES[id]={a:"",b:"",ta:"",tb:""};
+  SCORES[id][side]=val===""?"":(parseInt(val)>=0?val:"");
+  save();renderConferences();updatePill();
 }
-
 // ── SCHEDULE ──
 function renderSchedule(){
-  const el=document.getElementById("vschedule");
-  let html=`<div class="hint"><strong>Full Schedule · 36 fixtures:</strong> Each Northern team plays all 6 Southern teams — 3 away in July, 3 at home in November. All times are in <strong>your local timezone</strong>.</div>`;
-  ["J","N"].forEach(r=>{
-    const rName=r==="J"?"July Series · Southern Hemisphere":"November Series · Northern Hemisphere";
-    const rFix=FIXTURES.filter(f=>f.round===r);
-    html+=`<div class="sch-rhead"><div class="sch-rtitle">${rName}</div><div class="sch-rbadge">${rFix.length} matches</div></div>`;
-
-    // Group by USER local date
-    const dateMap=new Map();
-    rFix.forEach(f=>{
-      const dk=fmtDateKey(f);
-      if(!dateMap.has(dk)) dateMap.set(dk,[]);
-      dateMap.get(dk).push(f);
-    });
-    dateMap.forEach((fixes,dateStr)=>{
-      html+=`<div class="sch-day"><div class="sch-date">${dateStr}</div>`;
-      fixes.forEach(f=>{
-        const conf=fixtureConf(f);
-        const cl=conf==="north"?"Northern":conf==="south"?"Southern":"Cross-Conf";
-        const sc=SCORES[f.id];
-        const hasScore=sc&&sc.a!==""&&sc.b!=="";
-        const scoreDisp=hasScore?`${sc.a}–${sc.b}`:`<span style="color:var(--silver)">vs</span>`;
-        html+=`<div class="sch-match">
-          <div class="sch-time">${fmtTime(f)}</div>
-          <div class="sch-teams">
-            <div class="sch-t">${fimg(f.a,"fi-sm")} ${f.a}</div>
-            <div class="sch-t">${fimg(f.b,"fi-sm")} ${f.b}</div>
-            <div class="sch-meta"><span class="cbadge ${conf}">${cl}</span><span>${f.v}</span></div>
-          </div>
-          <div class="sch-score">${scoreDisp}</div>
-        </div>`;
-      });
-      html+=`</div>`;
-    });
-  });
-  el.innerHTML=html;
+  const el=document.getElementById("vschedule");
+  let html=`<div class="hint"><strong>Full Schedule · 36 fixtures:</strong> Each Northern team plays all 6 Southern teams — 3 away in July, 3 at home in November. <span class="ft-badge">FT</span> = official result · <span class="pred-badge">PICK</span> = your prediction. All times in <strong>your local timezone</strong>.</div>`;
+  ["J","N"].forEach(r=>{
+    const rName=r==="J"?"July Series · Southern Hemisphere":"November Series · Northern Hemisphere";
+    const rFix=FIXTURES.filter(f=>f.round===r);
+    html+=`<div class="sch-rhead"><div class="sch-rtitle">${rName}</div><div class="sch-rbadge">${rFix.length} matches</div></div>`;
+    const dateMap=new Map();
+    rFix.forEach(f=>{
+      const dk=fmtDateKey(f);
+      if(!dateMap.has(dk)) dateMap.set(dk,[]);
+      dateMap.get(dk).push(f);
+    });
+    dateMap.forEach((fixes,dateStr)=>{
+      html+=`<div class="sch-day"><div class="sch-date">${dateStr}</div>`;
+      fixes.forEach(f=>{
+        const conf=fixtureConf(f);
+        const cl=conf==="north"?"Northern":conf==="south"?"Southern":"Cross-Conf";
+        const sc=getScore(f);
+        let scoreHtml;
+        if(sc){
+          scoreHtml=`<span>${sc.a}–${sc.b}</span>${sc.official?`<span class="ft-badge">FT</span>`:`<span class="pred-badge">PICK</span>`}`;
+        } else {
+          scoreHtml=`<span style="color:var(--silver);font-size:12px;font-weight:600;">vs</span>`;
+        }
+        html+=`<div class="sch-match">
+          <div class="sch-time">${fmtTime(f)}</div>
+          <div class="sch-teams">
+            <div class="sch-t ${sc?(sc.a>sc.b?"winner":sc.a<sc.b?"loser":""):""}">${fimg(f.a,"fi-sm")} ${f.a}</div>
+            <div class="sch-t ${sc?(sc.b>sc.a?"winner":sc.b<sc.a?"loser":""):""}">${fimg(f.b,"fi-sm")} ${f.b}</div>
+            <div class="sch-meta"><span class="cbadge ${conf}">${cl}</span><span>Rd ${roundNum(f)}</span><span>·</span><span>${f.v}</span></div>
+          </div>
+          <div class="sch-score">${scoreHtml}</div>
+        </div>`;
+      });
+      html+=`</div>`;
+    });
+  });
+  el.innerHTML=html;
 }
-
 // ── FINALS ──
 function renderFinals(){
-  const el=document.getElementById("vfinals");
-  const nW=getWinner(NORTH),sW=getWinner(SOUTH);
-  el.innerHTML=`<div class="finals-hero">
-    <div class="f-label">World Rugby · Nations Championship 2026</div>
-    <div class="f-title">THE GRAND FINAL</div>
-    <div class="f-venue">Allianz Stadium, Twickenham · Sunday 29 November 2026</div>
-    <div class="f-matchup">
-      <div class="f-tcard n ${CHAMPION_PICK===nW?"picked":""}" onclick="pickChamp('${nW}')">
-        <div class="f-tflag"><img class="f-flagimg" src="https://flagcdn.com/w160/${ISO[nW]||"xx"}.png" alt="${nW}" onerror="this.style.display='none'"></div>
-        <div class="f-tname">${nW}</div><div class="f-tconf">North #1</div>
-      </div>
-      <div class="f-vs">VS</div>
-      <div class="f-tcard s ${CHAMPION_PICK===sW?"picked":""}" onclick="pickChamp('${sW}')">
-        <div class="f-tflag"><img class="f-flagimg" src="https://flagcdn.com/w160/${ISO[sW]||"xx"}.png" alt="${sW}" onerror="this.style.display='none'"></div>
-        <div class="f-tname">${sW}</div><div class="f-tconf">South #1</div>
-      </div>
-    </div>
-    <div class="f-hint">← Click a team to predict your champion →</div>
-    ${CHAMPION_PICK?`<div class="champ-reveal"><div class="champ-trophy">🏆</div><div class="champ-name">${CHAMPION_PICK.toUpperCase()}</div><div class="champ-sub">Your predicted 2026 Nations Champion</div></div>`:""}
-  </div>
-  <div class="hint" style="text-align:center;"><strong>Finals Weekend · 27–29 November · Allianz Stadium, Twickenham.</strong> All 6 finishing positions decided — 1st vs 1st through 6th vs 6th. The Grand Final (Sunday 29 Nov) crowns the inaugural Nations Champion.</div>`;
+  const el=document.getElementById("vfinals");
+  const nOrd=projectedOrder(NORTH),sOrd=projectedOrder(SOUTH);
+  const nW=nOrd[0],sW=sOrd[0];
+  let fwCards="";
+  for(let p=6;p>=2;p--){
+    const slot=FINALS_SLOTS[p];
+    fwCards+=`<div class="fw-card">
+      <div class="fw-when"><span>${slot.day} · ${slot.time} UK</span><span>${ORD[p-1]} v ${ORD[p-1]}</span></div>
+      <div class="fw-t">${fimg(nOrd[p-1],"fi-sm")} ${nOrd[p-1]}</div>
+      <div class="fw-t">${fimg(sOrd[p-1],"fi-sm")} ${sOrd[p-1]}</div>
+    </div>`;
+  }
+  fwCards+=`<div class="fw-card gf">
+    <div class="fw-when"><span>Sun 29 Nov · 16:40 UK</span><span class="gf-tag">🏆 GRAND FINAL</span></div>
+    <div class="fw-t">${fimg(nW,"fi-sm")} ${nW}</div>
+    <div class="fw-t">${fimg(sW,"fi-sm")} ${sW}</div>
+  </div>`;
+  el.innerHTML=`<div class="finals-hero">
+    <div class="f-label">World Rugby · Nations Championship 2026</div>
+    <div class="f-title">THE GRAND FINAL</div>
+    <div class="f-venue">Allianz Stadium, Twickenham · Sunday 29 November 2026 · 16:40 UK</div>
+    <div class="f-matchup">
+      <div class="f-tcard n ${CHAMPION_PICK===nW?"picked":""}" onclick="pickChamp('${nW}')">
+        <div class="f-tflag"><img class="f-flagimg" src="https://flagcdn.com/w160/${ISO[nW]||"xx"}.png" alt="${nW}" onerror="this.style.display='none'"></div>
+        <div class="f-tname">${nW}</div><div class="f-tconf">North #1</div>
+      </div>
+      <div class="f-vs">VS</div>
+      <div class="f-tcard s ${CHAMPION_PICK===sW?"picked":""}" onclick="pickChamp('${sW}')">
+        <div class="f-tflag"><img class="f-flagimg" src="https://flagcdn.com/w160/${ISO[sW]||"xx"}.png" alt="${sW}" onerror="this.style.display='none'"></div>
+        <div class="f-tname">${sW}</div><div class="f-tconf">South #1</div>
+      </div>
+    </div>
+    <div class="f-hint">← Click a team to predict your champion →</div>
+    ${CHAMPION_PICK?`<div class="champ-reveal"><div class="champ-trophy">🏆</div><div class="champ-name">${CHAMPION_PICK.toUpperCase()}</div><div class="champ-sub">Your predicted 2026 Nations Champion</div></div>`:""}
+  </div>
+  <div class="sch-rhead"><div class="sch-rtitle">Full Finals Weekend · 27–29 Nov · Twickenham</div><div class="sch-rbadge">based on your projected standings</div></div>
+  <div class="fw-grid">${fwCards}</div>
+  <div class="hint" style="text-align:center;">Every team plays on Finals Weekend — each side meets the team that finished in the <strong>same position</strong> in the opposite conference (1st v 1st down to 6th v 6th). The 1st v 1st match is the Grand Final.</div>`;
 }
 function pickChamp(n){CHAMPION_PICK=n;save();renderFinals();updatePill();}
-
 // ── TEAM PATH ──
 function renderPath(){
-  const el=document.getElementById("vpath");
-  const all=[...NORTH,...SOUTH].sort();
-  let html=`<div class="psel"><label>Select a team to trace their journey</label>
-    <select onchange="SEL_TEAM=this.value;renderPath()">
-      <option value="">— Choose a team —</option>
-      ${all.map(t=>`<option value="${t}" ${t===SEL_TEAM?"selected":""}>${t}</option>`).join("")}
-    </select></div>`;
-
-  if(SEL_TEAM){
-    const conf=NORTH.includes(SEL_TEAM)?"north":"south";
-    const confTeams=NORTH.includes(SEL_TEAM)?NORTH:SOUTH;
-    html+=`<div class="tprofile"><div>${fimg(SEL_TEAM,"fi-lg")}</div><div>
-      <div class="pname">${SEL_TEAM}</div>
-      <div class="pmeta">World Rugby Ranking: <strong>#${WR_RANK[SEL_TEAM]||"—"}</strong> · Conference: <strong>${conf==="north"?"Northern":"Southern"}</strong></div>
-    </div></div><div class="ptl">`;
-
-    let pos;
-    if(PREDICTION_MODE==="quick"){
-      pos=(conf==="north"?GR_NORTH:GR_SOUTH).indexOf(SEL_TEAM)+1;
-    } else {
-      pos=calcStandings(confTeams).findIndex(x=>x.name===SEL_TEAM)+1;
-    }
-    const posLbl=["1st","2nd","3rd","4th","5th","6th"][pos-1]||"—";
-    const adv=pos===1;
-
-    html+=`<div class="pstep"><div class="sdot ${adv?"win":"grp"}"></div>
-      <div class="scard ${adv?"win":"loss"}">
-        <div class="sround">Conference Stage</div>
-        <div class="sdetail">${conf==="north"?"🌍 Northern":"🌏 Southern"} Conference · Finishes ${posLbl}</div>
-        <div class="sresult ${adv?"adv":"elim"}">${adv?"Advances to Grand Final as conference winner":"Does not qualify for the Grand Final"}</div>
-      </div></div>`;
-
-    if(adv){
-      const oppW=getWinner(conf==="north"?SOUTH:NORTH);
-      const isChamp=CHAMPION_PICK===SEL_TEAM;
-      html+=`<div class="pstep"><div class="sdot ${isChamp?"win":"grp"}"></div>
-        <div class="scard ${isChamp?"champ":""}">
-          <div class="sround">Grand Final · Sun 29 Nov · Allianz Stadium, Twickenham</div>
-          <div class="sdetail">${fimg(SEL_TEAM,"fi-sm")} ${SEL_TEAM} vs ${fimg(oppW,"fi-sm")} ${oppW}</div>
-          <div class="sresult ${isChamp?"champ":"adv"}">${isChamp?"🏆 Your predicted 2026 Nations Champion!":"Visit Grand Final tab to pick your winner"}</div>
-        </div></div>`;
-    }
-    html+=`</div>`;
-
-    // Stats
-    const tfx=FIXTURES.filter(f=>f.a===SEL_TEAM||f.b===SEL_TEAM);
-    let w=0,d=0,l=0,pts=0;
-    tfx.forEach(f=>{
-      const sc=SCORES[f.id];
-      if(!sc||sc.a===""||sc.b==="") return;
-      const sa=parseInt(sc.a)||0,sb=parseInt(sc.b)||0;
-      const ih=f.a===SEL_TEAM;
-      const my=ih?sa:sb,op=ih?sb:sa;
-      const myT=parseInt(ih?sc.ta:sc.tb)||0;
-      if(my>op){w++;pts+=4;}else if(my<op){l++;if(op-my<=7)pts+=1;}else{d++;pts+=2;}
-      if(myT>=4) pts+=1;
-    });
-
-    html+=`<div style="margin-top:18px;">
-    <div class="hint"><strong>Match record for ${SEL_TEAM}</strong> — based on your entered scores.</div>
-    <div class="stat-row">
-      <div class="stat-box"><div class="stat-n" style="color:var(--green)">${w}</div><div class="stat-l">Wins</div></div>
-      <div class="stat-box"><div class="stat-n">${d}</div><div class="stat-l">Draws</div></div>
-      <div class="stat-box"><div class="stat-n" style="color:var(--red)">${l}</div><div class="stat-l">Losses</div></div>
-      <div class="stat-box"><div class="stat-n" style="color:var(--gold)">${pts}</div><div class="stat-l">Points</div></div>
-    </div>
-    <div class="match-list">`;
-    tfx.forEach(f=>{
-      const sc=SCORES[f.id],ih=f.a===SEL_TEAM,opp=ih?f.b:f.a;
-      let rl="—",rc="var(--silver)";
-      if(sc&&sc.a!==""&&sc.b!==""){
-        const sa=parseInt(sc.a)||0,sb=parseInt(sc.b)||0;
-        const my=ih?sa:sb,op=ih?sb:sa;
-        if(my>op){rl=`W ${my}–${op}`;rc="var(--green)";}
-        else if(my<op){rl=`L ${my}–${op}`;rc="var(--red)";}
-        else{rl=`D ${my}–${op}`;rc="#7a5c00";}
-      }
-      html+=`<div class="match-item">
-        <div style="font-size:11px;color:var(--silver);min-width:48px;">${fmtDate(f)}</div>
-        <div style="flex:1;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;min-width:0;">${fimg(opp,"fi-sm")} <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${opp}</span></div>
-        <div style="font-size:10px;color:var(--silver);flex-shrink:0;">${ih?"H":"A"}</div>
-        <div style="font-size:12px;font-weight:700;color:${rc};min-width:58px;text-align:right;flex-shrink:0;">${rl}</div>
-      </div>`;
-    });
-    html+=`</div></div>`;
-  }
-  el.innerHTML=html;
+  const el=document.getElementById("vpath");
+  const all=[...NORTH,...SOUTH].sort();
+  let html=`<div class="psel"><label>Select a team to trace their journey</label>
+    <select onchange="SEL_TEAM=this.value;renderPath()">
+      <option value="">— Choose a team —</option>
+      ${all.map(t=>`<option value="${t}" ${t===SEL_TEAM?"selected":""}>${t}</option>`).join("")}
+    </select></div>`;
+  if(!SEL_TEAM){
+    html+=`<div class="noteam">Pick a team above to see all six of their fixtures, their projected conference finish, and who they'd meet on Finals Weekend.</div>`;
+    el.innerHTML=html;return;
+  }
+  const conf=NORTH.includes(SEL_TEAM)?"north":"south";
+  const confTeams=conf==="north"?NORTH:SOUTH;
+  const oppTeams=conf==="north"?SOUTH:NORTH;
+  const myOrd=projectedOrder(confTeams),oppOrd=projectedOrder(oppTeams);
+  const pos=myOrd.indexOf(SEL_TEAM)+1;
+  const posLbl=ORD[pos-1]||"—";
+  const finalsOpp=oppOrd[pos-1];
+  const slot=FINALS_SLOTS[pos];
+  const isGF=pos===1;
+  const basis=PREDICTION_MODE==="match"?"calculated from official results + your predicted scores":"based on your Quick Rank order";
+  // profile
+  html+=`<div class="tprofile ${conf}"><div>${fimg(SEL_TEAM,"fi-lg")}</div><div>
+    <div class="pname">${SEL_TEAM}</div>
+    <div class="pmeta">World Rugby Ranking <strong>#${WR_RANK[SEL_TEAM]||"—"}</strong> · <strong>${conf==="north"?"🌍 Northern":"🌏 Southern"}</strong> Conference</div>
+  </div></div>`;
+  // projection banner
+  html+=`<div class="proj ${isGF?"p1":"pn"}">
+    <div class="proj-pos" style="color:${isGF?"var(--gold)":"var(--ink2)"}">${posLbl}<small>projected</small></div>
+    <div class="proj-body">
+      <div class="proj-head">${isGF?"🏆 Grand Final bound":"Finals Weekend destination"}</div>
+      <div class="proj-main">${fimg(SEL_TEAM,"fi-sm")} ${SEL_TEAM} <span style="color:var(--silver);font-weight:600;">v</span> ${fimg(finalsOpp,"fi-sm")} ${finalsOpp}</div>
+      <div class="proj-sub">${slot.label} · ${slot.day} · ${slot.time} UK · Allianz Stadium, Twickenham — every team plays on Finals Weekend against the same-placed team from the other conference. Projection ${basis}.</div>
+    </div>
+  </div>`;
+  // record stats
+  const tfx=FIXTURES.filter(f=>f.a===SEL_TEAM||f.b===SEL_TEAM).sort((x,y)=>x.id-y.id);
+  let w=0,d=0,l=0,pts=0,played=0;
+  tfx.forEach(f=>{
+    const sc=getScore(f);
+    if(!sc) return;
+    played++;
+    const ih=f.a===SEL_TEAM;
+    const my=ih?sc.a:sc.b,op=ih?sc.b:sc.a;
+    const myT=(ih?sc.ta:sc.tb)||0;
+    if(my>op){w++;pts+=4;}else if(my<op){l++;if(op-my<=7)pts+=1;}else{d++;pts+=2;}
+    if(myT>=4) pts+=1;
+  });
+  html+=`<div class="stat-row">
+    <div class="stat-box"><div class="stat-n" style="color:var(--green)">${w}</div><div class="stat-l">Wins</div></div>
+    <div class="stat-box"><div class="stat-n">${d}</div><div class="stat-l">Draws</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--red)">${l}</div><div class="stat-l">Losses</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--gold)">${pts}</div><div class="stat-l">Table Pts</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--ink3)">${played}/6</div><div class="stat-l">Played</div></div>
+  </div>`;
+  // full journey timeline — all 6 fixtures + finals weekend
+  html+=`<div class="jrny-title">The Road to Twickenham — all fixtures</div><div class="ptl">`;
+  tfx.forEach(f=>{
+    const ih=f.a===SEL_TEAM,opp=ih?f.b:f.a;
+    const sc=getScore(f);
+    let dotCls="pend",cardCls="",scoreHtml=`<span class="sscore p">${fmtTime(f)}</span>`,badge="";
+    if(sc){
+      const my=ih?sc.a:sc.b,op=ih?sc.b:sc.a;
+      const res=my>op?"win":my<op?"loss":"draw";
+      dotCls=res;cardCls=res;
+      const cls=res==="win"?"w":res==="loss"?"l":"d";
+      const letter=res==="win"?"W":res==="loss"?"L":"D";
+      scoreHtml=`<span class="sscore ${cls}">${letter} ${my}–${op}</span>`;
+      badge=sc.official?`<span class="ft-badge">FT</span>`:`<span class="pred-badge">PICK</span>`;
+    }
+    html+=`<div class="pstep"><div class="sdot ${dotCls}"></div>
+      <div class="scard ${cardCls}">
+        <div class="sround">Round ${roundNum(f)} · ${fmtDate(f)} ${badge}</div>
+        <div class="sdetail">${fimg(opp,"fi-sm")} <span>${ih?"":"@ "}${opp}</span> <span class="ha-chip ${ih?"h":"a"}">${ih?"HOME":"AWAY"}</span>${scoreHtml}</div>
+        <div class="svenue">${f.v}</div>
+      </div></div>`;
+  });
+  // finals step
+  const isChamp=CHAMPION_PICK===SEL_TEAM;
+  html+=`<div class="pstep"><div class="sdot final"></div>
+    <div class="scard finalcard ${isGF&&isChamp?"champ":""}">
+      <div class="sround">Finals Weekend · ${slot.day} · ${slot.time} UK · Allianz Stadium, Twickenham</div>
+      <div class="sdetail">${fimg(SEL_TEAM,"fi-sm")} ${SEL_TEAM} <span style="color:var(--silver);">v</span> ${fimg(finalsOpp,"fi-sm")} ${finalsOpp} <span class="ha-chip a" style="margin-left:auto;">${slot.label.toUpperCase()}</span></div>
+      <div class="sresult ${isGF?(isChamp?"champ":"adv"):"mid"}">${
+        isGF?(isChamp?"🏆 Your predicted 2026 Nations Champion!":"Projected Grand Finalist — pick your champion in the Finals Weekend tab")
+        :`Projected to finish ${posLbl} — plays the ${posLbl}-placed Southern/Northern side for final ranking. Win the remaining games to climb the table!`
+      }</div>
+    </div></div>`;
+  html+=`</div>`;
+  el.innerHTML=html;
 }
-
 // ── PILL ──
 function updatePill(){
-  const pill=document.getElementById("cpill"),name=document.getElementById("cpillname");
-  if(CHAMPION_PICK&&pill&&name){pill.style.display="block";name.innerHTML=`${fimg(CHAMPION_PICK,"fi-sm")} ${CHAMPION_PICK}`;}
-  else if(pill) pill.style.display="none";
+  const pill=document.getElementById("cpill"),name=document.getElementById("cpillname");
+  if(CHAMPION_PICK&&pill&&name){pill.style.display="flex";name.textContent=CHAMPION_PICK;}
+  else if(pill) pill.style.display="none";
 }
-
 // ── RESET ──
 function doReset(){
-  if(!confirm("Reset all scores and predictions?"))return;
-  PREDICTION_MODE="quick";GR_NORTH=[];GR_SOUTH=[];SCORES={};CHAMPION_PICK=null;SEL_TEAM=null;
-  initGR();save();
-  const av=document.querySelector(".view.active");
-  if(av){
-    if(av.id==="vconferences") renderConferences();
-    if(av.id==="vschedule") renderSchedule();
-    if(av.id==="vpath") renderPath();
-    if(av.id==="vfinals") renderFinals();
-  }
-  updatePill();
+  if(!confirm("Reset your predictions? Official results stay."))return;
+  PREDICTION_MODE="quick";GR_NORTH=[];GR_SOUTH=[];SCORES={};CHAMPION_PICK=null;SEL_TEAM=null;
+  initGR();save();
+  rerenderActive();
 }
-
-load();renderConferences();updatePill();
+load();renderConferences();updatePill();syncResults();
 </script>
 </body>
 </html>
-
