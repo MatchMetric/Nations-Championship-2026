@@ -104,9 +104,21 @@ body{font-family:'Barlow',sans-serif;background:
 .mb{background:none;border:1px solid var(--bd2);border-radius:4px;padding:2px 8px;font-size:9px;cursor:pointer;color:var(--muted);font-family:'Barlow',sans-serif;font-weight:700;line-height:1.4;transition:all 0.1s;}
 .mb:hover{background:var(--pale);color:var(--ink);}
 .mb:disabled{opacity:0.2;cursor:default;}
-/* ── FIXTURE ROWS ── */
-.fix-panel{background:#f7f9fc;border-top:1px solid var(--bd);padding:10px;display:flex;flex-direction:column;gap:5px;}
-.fix-rlabel{font-size:9px;font-weight:800;color:var(--silver);text-transform:uppercase;letter-spacing:1.2px;margin:5px 0 2px;text-align:center;}
+/* ── FORM DOTS ── */
+.fdots{display:inline-flex;gap:2.5px;margin-left:6px;vertical-align:middle;}
+.fdot{width:7px;height:7px;border-radius:50%;display:inline-block;cursor:help;}
+.fdot.w{background:var(--green);}
+.fdot.l{background:var(--red);}
+.fdot.d{background:var(--gold);}
+/* ── FIXTURES SECTION ── */
+.rd-block{margin-bottom:14px;}
+.rd-head{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+.rd-head::after{content:'';flex:1;height:1px;background:var(--bd2);}
+.rd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:720px){.rd-grid{grid-template-columns:1fr;}}
+.f-row.fcol{flex-direction:column;align-items:stretch;gap:4px;}
+.f-top{display:flex;align-items:center;gap:6px;}
+.f-report{font-size:11px;color:var(--ink3);line-height:1.55;border-top:1px dashed var(--bd);padding-top:5px;font-style:italic;}
 .f-row{display:flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--bd);border-radius:9px;padding:6px 8px;}
 .f-row.official{border-color:rgba(28,122,68,0.35);background:linear-gradient(0deg,rgba(28,122,68,0.03),rgba(28,122,68,0.03)),var(--sf);}
 .f-team{width:0;flex:1;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--ink);}
@@ -419,7 +431,7 @@ function flashSave(){const dot=document.getElementById("savedot");if(dot){dot.cl
 function applyResults(list){
   (list||[]).forEach(r=>{
     if(r&&r.id!=null&&r.a!=null&&r.b!=null&&r.a!==""&&r.b!==""){
-      RESULTS[r.id]={a:+r.a,b:+r.b,ta:(r.ta==null||r.ta==="")?null:+r.ta,tb:(r.tb==null||r.tb==="")?null:+r.tb};
+      RESULTS[r.id]={a:+r.a,b:+r.b,ta:(r.ta==null||r.ta==="")?null:+r.ta,tb:(r.tb==null||r.tb==="")?null:+r.tb,report:r.report||null};
     }
   });
 }
@@ -516,16 +528,18 @@ function setMode(m){if(PREDICTION_MODE===m)return;PREDICTION_MODE=m;save();rende
 function renderConferences(){
   const el=document.getElementById("vconferences");
   const hint=PREDICTION_MODE==="quick"
-    ?"<strong>Quick Rank Mode:</strong> Use ▲▼ to set your predicted finishing order for each conference. Fixtures with a <span class='ft-badge'>FT</span> badge are official results already played."
-    :"<strong>Match Predictor Mode:</strong> Enter scores to auto-calculate standings using World Rugby bonus point rules (4 win, 2 draw, +1 losing within 7, +1 for 4+ tries). Official results (<span class='ft-badge'>FT</span>) are locked and included automatically.";
+    ?"<strong>Quick Rank Mode:</strong> Use ▲▼ to set your predicted finishing order for each conference. Matches with a <span class='ft-badge'>FT</span> badge below are official results already played."
+    :"<strong>Match Predictor Mode:</strong> Enter scores in the fixtures below to auto-calculate the standings using World Rugby bonus point rules (4 win, 2 draw, +1 losing within 7, +1 for 4+ tries). Official results (<span class='ft-badge'>FT</span>) are locked and included automatically.";
   el.innerHTML=`<div class="mode-toggle">
     <button class="mt-btn ${PREDICTION_MODE==="quick"?"active":""}" onclick="setMode('quick')">⚡ Quick Rank</button>
     <button class="mt-btn ${PREDICTION_MODE==="match"?"active":""}" onclick="setMode('match')">🔢 Match Predictor</button>
   </div><div class="hint">${hint}</div>
   <div class="tz-note">All kick-off times shown in <strong>your local timezone</strong></div>
-  <div class="conf-grid"><div id="cn"></div><div id="cs"></div></div>`;
+  <div class="conf-grid"><div id="cn"></div><div id="cs"></div></div>
+  <div id="fixsec"></div>`;
   renderCard("cn","north",NORTH,"🌍 Northern Conference",GR_NORTH);
   renderCard("cs","south",SOUTH,"🌏 Southern Conference",GR_SOUTH);
+  renderFixtures();
 }
 function renderCard(elId,ck,teams,title,gr){
   const el=document.getElementById(elId);if(!el)return;
@@ -535,7 +549,7 @@ function renderCard(elId,ck,teams,title,gr){
     gr.forEach((t,i)=>{
       html+=`<div class="trow ${i===0?"leader":""}">
         <span class="rnum">${i+1}</span>
-        <span class="tname">${fimg(t,"fi")} <span>${t}</span></span>
+        <span class="tname">${fimg(t,"fi")} <span>${t}</span>${formDots(t)}</span>
         <div class="mbtn">
           <button class="mb" onclick="moveTeam('${ck}',${i},-1)" ${i===0?"disabled":""}>▲</button>
           <button class="mb" onclick="moveTeam('${ck}',${i},1)" ${i===gr.length-1?"disabled":""}>▼</button>
@@ -556,7 +570,7 @@ function renderCard(elId,ck,teams,title,gr){
       const bpTitle=`${t.tbp} try bonus · ${t.lbp} losing bonus`;
       html+=`<tr class="${i===0?"leader":""}">
         <td><span class="rnum">${i+1}</span></td>
-        <td><div class="t-cell">${fimg(t.name,"fi")} ${t.name}</div></td>
+        <td><div class="t-cell">${fimg(t.name,"fi")} ${t.name}${formDots(t.name)}</div></td>
         <td class="rc">${t.p}</td>
         <td class="rc ${pdc}">${pd}</td>
         <td class="rc">${t.tf}</td>
@@ -566,48 +580,86 @@ function renderCard(elId,ck,teams,title,gr){
     });
     html+=`</tbody></table>`;
   }
-  // Fixtures
-  const cfx=FIXTURES.filter(f=>teams.includes(f.a)||teams.includes(f.b));
-  html+=`<div class="fix-panel">`;
-  let lastRound=null;
-  cfx.forEach(f=>{
-    const rl=f.round==="J"?"July Series":"November Series";
-    if(rl!==lastRound){html+=`<div class="fix-rlabel">${rl}</div>`;lastRound=rl;}
-    const off=RESULTS[f.id];
-    if(off){
-      html+=`<div class="f-row official">
+  html+=`</div>`;
+  el.innerHTML=html;
+}
+// Form dots — chronological W/L/D per team
+function formDots(team){
+  let dots="";
+  FIXTURES.filter(f=>f.a===team||f.b===team).sort((x,y)=>toDate(x)-toDate(y)).forEach(f=>{
+    const sc=getScore(f); if(!sc) return;
+    const ih=f.a===team,my=ih?sc.a:sc.b,op=ih?sc.b:sc.a;
+    const c=my>op?"w":my<op?"l":"d";
+    dots+=`<span class="fdot ${c}" title="${f.a} ${sc.a}–${sc.b} ${f.b}"></span>`;
+  });
+  return dots?`<span class="fdots">${dots}</span>`:"";
+}
+// Auto-generated one-line match report from the numbers
+function autoReport(f,sc){
+  if(sc.a===sc.b) return `${f.a} and ${f.b} couldn't be separated — a ${sc.a}–${sc.b} draw and two points apiece.`;
+  const w=sc.a>sc.b?f.a:f.b,l=sc.a>sc.b?f.b:f.a;
+  const ws=Math.max(sc.a,sc.b),ls=Math.min(sc.a,sc.b),margin=ws-ls;
+  const wT=w===f.a?sc.ta:sc.tb,lT=w===f.a?sc.tb:sc.ta;
+  const totT=(sc.ta||0)+(sc.tb||0);
+  let s;
+  if(margin<=3) s=`${w} edged ${l} ${ws}–${ls}`+(totT>=8?` in a ${totT}-try thriller`:` in a nail-biter`);
+  else if(margin<=7) s=`${w} held off ${l} ${ws}–${ls} — a losing bonus point softens the blow`;
+  else if(margin<=15) s=`${w} beat ${l} ${ws}–${ls} with a bit to spare`;
+  else s=`${w} dominated ${l} ${ws}–${ls}`;
+  const bits=[];
+  if(wT!=null&&wT>=4) bits.push(`try bonus for ${w}`);
+  if(lT!=null&&lT>=4) bits.push(`try bonus for ${l}`);
+  if(bits.length) s+=` (${bits.join(", ")})`;
+  return s+".";
+}
+// ── FIXTURES SECTION (each match once) ──
+const ROUND_DATES={1:"4 July",2:"11 July",3:"18 July",4:"6–8 November",5:"13–15 November",6:"21 November"};
+function fixtureRow(f){
+  const off=RESULTS[f.id];
+  if(off){
+    const rep=off.report||autoReport(f,off);
+    return `<div class="f-row official fcol">
+      <div class="f-top">
         <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
         <div class="f-mid">
           <div class="f-final"><span>${off.a}</span><span class="ft-badge">FT</span><span>${off.b}</span></div>
           ${off.ta!=null?`<div class="f-tries-note">tries ${off.ta}–${off.tb}</div>`:""}
-          <div class="f-meta">${fmtDate(f)}</div>
         </div>
         <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
-      </div>`;
-      return;
-    }
-    const sc=SCORES[f.id]||{a:"",b:"",ta:"",tb:""};
-    const sa=sc.a!==""?parseInt(sc.a):null,sb=sc.b!==""?parseInt(sc.b):null;
-    const wc=sa!==null&&sb!==null?(sa>sb?"win-a":sb>sa?"win-b":""):"";
-    html+=`<div class="f-row ${wc}">
-      <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
-      <div class="f-mid">
-        <div class="f-scores">
-          <input class="f-in" type="number" min="0" value="${sc.a}" placeholder="–" oninput="updS(${f.id},'a',this.value)">
-          <span class="f-dash">–</span>
-          <input class="f-in" type="number" min="0" value="${sc.b}" placeholder="–" oninput="updS(${f.id},'b',this.value)">
-        </div>
-        ${PREDICTION_MODE==="match"?`<div class="f-tries">
-          <input class="f-tin" type="number" min="0" value="${sc.ta}" placeholder="T" title="Tries — ${f.a}" oninput="updS(${f.id},'ta',this.value)">
-          <span class="f-tries-lbl">tries</span>
-          <input class="f-tin" type="number" min="0" value="${sc.tb}" placeholder="T" title="Tries — ${f.b}" oninput="updS(${f.id},'tb',this.value)">
-        </div>`:""}
-        <div class="f-meta">${fmtDate(f)} · ${fmtTime(f)}</div>
       </div>
-      <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
+      <div class="f-report">${rep}</div>
     </div>`;
-  });
-  html+=`</div></div>`;
+  }
+  const sc=SCORES[f.id]||{a:"",b:"",ta:"",tb:""};
+  const sa=sc.a!==""?parseInt(sc.a):null,sb=sc.b!==""?parseInt(sc.b):null;
+  const wc=sa!==null&&sb!==null?(sa>sb?"win-a":sb>sa?"win-b":""):"";
+  return `<div class="f-row ${wc}" id="fx${f.id}">
+    <div class="f-team tr">${fimg(f.a,"fi-sm")} <span>${f.a}</span></div>
+    <div class="f-mid">
+      <div class="f-scores">
+        <input class="f-in" type="number" min="0" value="${sc.a}" placeholder="–" oninput="updS(${f.id},'a',this.value)">
+        <span class="f-dash">–</span>
+        <input class="f-in" type="number" min="0" value="${sc.b}" placeholder="–" oninput="updS(${f.id},'b',this.value)">
+      </div>
+      ${PREDICTION_MODE==="match"?`<div class="f-tries">
+        <input class="f-tin" type="number" min="0" value="${sc.ta}" placeholder="T" title="Tries — ${f.a}" oninput="updS(${f.id},'ta',this.value)">
+        <span class="f-tries-lbl">tries</span>
+        <input class="f-tin" type="number" min="0" value="${sc.tb}" placeholder="T" title="Tries — ${f.b}" oninput="updS(${f.id},'tb',this.value)">
+      </div>`:""}
+      <div class="f-meta">${fmtDate(f)} · ${fmtTime(f)}</div>
+    </div>
+    <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
+  </div>`;
+}
+function renderFixtures(){
+  const el=document.getElementById("fixsec");if(!el)return;
+  let html=`<div class="sch-rhead" style="margin-top:22px;"><div class="sch-rtitle">Fixtures & Predictions</div><div class="sch-rbadge">every match, listed once</div></div>`;
+  for(let r=1;r<=6;r++){
+    const fx=FIXTURES.filter(f=>roundNum(f)===r);
+    html+=`<div class="rd-block"><div class="rd-head">Round ${r} · ${ROUND_DATES[r]}</div><div class="rd-grid">`;
+    fx.forEach(f=>{html+=fixtureRow(f);});
+    html+=`</div></div>`;
+  }
   el.innerHTML=html;
 }
 function moveTeam(ck,idx,dir){
@@ -618,7 +670,18 @@ function moveTeam(ck,idx,dir){
 function updS(id,side,val){
   if(!SCORES[id]) SCORES[id]={a:"",b:"",ta:"",tb:""};
   SCORES[id][side]=val===""?"":(parseInt(val)>=0?val:"");
-  save();renderConferences();updatePill();
+  save();
+  // re-render only the standings cards so the input keeps focus while typing
+  renderCard("cn","north",NORTH,"🌍 Northern Conference",GR_NORTH);
+  renderCard("cs","south",SOUTH,"🌏 Southern Conference",GR_SOUTH);
+  const row=document.getElementById("fx"+id);
+  if(row){
+    const sc=SCORES[id];
+    const sa=sc.a!==""?parseInt(sc.a):null,sb=sc.b!==""?parseInt(sc.b):null;
+    row.classList.remove("win-a","win-b");
+    if(sa!==null&&sb!==null){if(sa>sb)row.classList.add("win-a");else if(sb>sa)row.classList.add("win-b");}
+  }
+  updatePill();
 }
 // ── SCHEDULE ──
 function renderSchedule(){
