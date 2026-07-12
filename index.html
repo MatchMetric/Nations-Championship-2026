@@ -321,6 +321,13 @@ const EMBEDDED_RESULTS = [
   {id:4, a:24, b:39, ta:3, tb:6},  // Fiji 24–39 Wales
   {id:5, a:45, b:21, ta:7, tb:3},  // South Africa 45–21 England
   {id:6, a:38, b:47, ta:5, tb:7},  // Argentina 38–47 Scotland
+  // Round 2 — 11 July 2026 (official)
+  {id:7,  a:47, b:17, ta:7,    tb:2},  // New Zealand 47–17 Italy
+  {id:8,  a:26, b:42, ta:4,    tb:5},  // Australia 26–42 France
+  {id:9,  a:20, b:36, ta:null, tb:5},  // Japan 20–36 Ireland
+  {id:10, a:8,  b:73, ta:1,    tb:11}, // Fiji 8–73 England
+  {id:11, a:42, b:28, ta:6,    tb:4},  // South Africa 42–28 Scotland
+  {id:12, a:35, b:21, ta:5,    tb:3},  // Argentina 35–21 Wales
 ];
 
 const ISO={
@@ -352,7 +359,7 @@ const FIXTURES=[
   // Round 3 — 18 July
   {id:13, y:2026,mo:7,da:18, t:"19:10",utcOff:+12, v:"Eden Park, Auckland",                   a:"New Zealand",   b:"Ireland",      round:"J"},
   {id:14, y:2026,mo:7,da:18, t:"17:40",utcOff:+9,  v:"National Stadium, Tokyo",               a:"Japan",         b:"France",       round:"J"},
-  {id:15, y:2026,mo:7,da:18, t:"20:10",utcOff:+8,  v:"HBF Park, Perth",                       a:"Australia",     b:"Italy",        round:"J"},
+  {id:15, y:2026,mo:7,da:18, t:"18:10",utcOff:+8,  v:"HBF Park, Perth",                       a:"Australia",     b:"Italy",        round:"J"},
   {id:16, y:2026,mo:7,da:18, t:"14:10",utcOff:+1,  v:"Murrayfield, Edinburgh",                a:"Fiji",          b:"Scotland",     round:"J"},
   {id:17, y:2026,mo:7,da:18, t:"17:40",utcOff:+2,  v:"Kings Park Stadium, Durban",            a:"South Africa",  b:"Wales",        round:"J"},
   {id:18, y:2026,mo:7,da:18, t:"16:10",utcOff:-3,  v:"Estadio Madre de Ciudades, Santiago del Estero",a:"Argentina",b:"England",   round:"J"},
@@ -361,10 +368,10 @@ const FIXTURES=[
   {id:20, y:2026,mo:11,da:7, t:"12:40",utcOff:+1,  v:"Estadio Camilo Cano, La Nucia",         a:"Italy",         b:"South Africa", round:"N"},
   {id:21, y:2026,mo:11,da:7, t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"New Zealand",  round:"N"},
   {id:22, y:2026,mo:11,da:7, t:"16:40",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Japan",        round:"N"},
-  {id:23, y:2026,mo:11,da:7, t:"20:10",utcOff:+1,  v:"Parc Olympique Lyonnais, Lyon",         a:"France",        b:"Fiji",         round:"N"},
+  {id:23, y:2026,mo:11,da:7, t:"21:10",utcOff:+1,  v:"Parc Olympique Lyonnais, Lyon",         a:"France",        b:"Fiji",         round:"N"},
   {id:24, y:2026,mo:11,da:8, t:"15:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Australia",    round:"N"},
   // Round 5 — 13–15 November
-  {id:25, y:2026,mo:11,da:13,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"South Africa", round:"N"},
+  {id:25, y:2026,mo:11,da:13,t:"21:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"South Africa", round:"N"},
   {id:26, y:2026,mo:11,da:14,t:"12:40",utcOff:+1,  v:"Stadio Luigi Ferraris, Genoa",          a:"Italy",         b:"Argentina",    round:"N"},
   {id:27, y:2026,mo:11,da:14,t:"14:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"New Zealand",  round:"N"},
   {id:28, y:2026,mo:11,da:14,t:"16:40",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"Japan",        round:"N"},
@@ -374,9 +381,9 @@ const FIXTURES=[
   {id:31, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Murrayfield, Edinburgh",                a:"Scotland",      b:"Japan",        round:"N"},
   {id:32, y:2026,mo:11,da:21,t:"14:10",utcOff:+0,  v:"Allianz Stadium, Twickenham",           a:"England",       b:"New Zealand",  round:"N"},
   {id:33, y:2026,mo:11,da:21,t:"16:40",utcOff:+0,  v:"Aviva Stadium, Dublin",                 a:"Ireland",       b:"South Africa", round:"N"},
-  {id:34, y:2026,mo:11,da:21,t:"16:40",utcOff:+1,  v:"Stadio Friuli, Udine",                  a:"Italy",         b:"Fiji",         round:"N"},
+  {id:34, y:2026,mo:11,da:21,t:"17:40",utcOff:+1,  v:"Stadio Friuli, Udine",                  a:"Italy",         b:"Fiji",         round:"N"},
   {id:35, y:2026,mo:11,da:21,t:"20:10",utcOff:+0,  v:"Principality Stadium, Cardiff",         a:"Wales",         b:"Australia",    round:"N"},
-  {id:36, y:2026,mo:11,da:21,t:"20:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"Argentina",    round:"N"},
+  {id:36, y:2026,mo:11,da:21,t:"21:10",utcOff:+1,  v:"Stade de France, Paris",                a:"France",        b:"Argentina",    round:"N"},
 ];
 // Finals weekend — each finishing position meets its counterpart (per World Rugby)
 const FINALS_SLOTS={
@@ -395,6 +402,8 @@ function toDate(f){
   return new Date(Date.UTC(f.y,f.mo-1,f.da,h,m,0)-f.utcOff*3600000);
 }
 function fmtTime(f){return toDate(f).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}
+function userTZ(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"your local time";}catch(e){return "your local time";}}
+function venueKO(f){return `KO ${f.t} at the venue`;}
 function fmtDate(f){return toDate(f).toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});}
 function fmtDateKey(f){return toDate(f).toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'});}
 function fixtureConf(f){
@@ -534,7 +543,7 @@ function renderConferences(){
     <button class="mt-btn ${PREDICTION_MODE==="quick"?"active":""}" onclick="setMode('quick')">⚡ Quick Rank</button>
     <button class="mt-btn ${PREDICTION_MODE==="match"?"active":""}" onclick="setMode('match')">🔢 Match Predictor</button>
   </div><div class="hint">${hint}</div>
-  <div class="tz-note">All kick-off times shown in <strong>your local timezone</strong></div>
+  <div class="tz-note">Kick-off times shown in your local timezone — detected as <strong>${userTZ()}</strong> · hover a time for the venue's local kick-off</div>
   <div class="conf-grid"><div id="cn"></div><div id="cs"></div></div>
   <div id="fixsec"></div>`;
   renderCard("cn","north",NORTH,"🌍 Northern Conference",GR_NORTH);
@@ -646,7 +655,7 @@ function fixtureRow(f){
         <span class="f-tries-lbl">tries</span>
         <input class="f-tin" type="number" min="0" value="${sc.tb}" placeholder="T" title="Tries — ${f.b}" oninput="updS(${f.id},'tb',this.value)">
       </div>`:""}
-      <div class="f-meta">${fmtDate(f)} · ${fmtTime(f)}</div>
+      <div class="f-meta" title="${f.v} — ${venueKO(f)}">${fmtDate(f)} · <strong>${fmtTime(f)}</strong> <span style="opacity:0.75;">(${f.t} venue)</span></div>
     </div>
     <div class="f-team"><span>${f.b}</span> ${fimg(f.b,"fi-sm")}</div>
   </div>`;
@@ -686,7 +695,7 @@ function updS(id,side,val){
 // ── SCHEDULE ──
 function renderSchedule(){
   const el=document.getElementById("vschedule");
-  let html=`<div class="hint"><strong>Full Schedule · 36 fixtures:</strong> Each Northern team plays all 6 Southern teams — 3 away in July, 3 at home in November. <span class="ft-badge">FT</span> = official result · <span class="pred-badge">PICK</span> = your prediction. All times in <strong>your local timezone</strong>.</div>`;
+  let html=`<div class="hint"><strong>Full Schedule · 36 fixtures:</strong> Each Northern team plays all 6 Southern teams — 3 away in July, 3 at home in November. <span class="ft-badge">FT</span> = official result · <span class="pred-badge">PICK</span> = your prediction. Times shown in your local timezone (<strong>${userTZ()}</strong>); the venue's own kick-off time is listed with each match.</div>`;
   ["J","N"].forEach(r=>{
     const rName=r==="J"?"July Series · Southern Hemisphere":"November Series · Northern Hemisphere";
     const rFix=FIXTURES.filter(f=>f.round===r);
@@ -711,11 +720,11 @@ function renderSchedule(){
           scoreHtml=`<span style="color:var(--silver);font-size:12px;font-weight:600;">vs</span>`;
         }
         html+=`<div class="sch-match">
-          <div class="sch-time">${fmtTime(f)}</div>
+          <div class="sch-time" title="${venueKO(f)}">${fmtTime(f)}</div>
           <div class="sch-teams">
             <div class="sch-t ${sc?(sc.a>sc.b?"winner":sc.a<sc.b?"loser":""):""}">${fimg(f.a,"fi-sm")} ${f.a}</div>
             <div class="sch-t ${sc?(sc.b>sc.a?"winner":sc.b<sc.a?"loser":""):""}">${fimg(f.b,"fi-sm")} ${f.b}</div>
-            <div class="sch-meta"><span class="cbadge ${conf}">${cl}</span><span>Rd ${roundNum(f)}</span><span>·</span><span>${f.v}</span></div>
+            <div class="sch-meta"><span class="cbadge ${conf}">${cl}</span><span>Rd ${roundNum(f)}</span><span>·</span><span>${f.v}</span><span>·</span><span>KO ${f.t} venue time</span></div>
           </div>
           <div class="sch-score">${scoreHtml}</div>
         </div>`;
@@ -850,7 +859,7 @@ function renderPath(){
       <div class="scard ${cardCls}">
         <div class="sround">Round ${roundNum(f)} · ${fmtDate(f)} ${badge}</div>
         <div class="sdetail">${fimg(opp,"fi-sm")} <span>${ih?"":"@ "}${opp}</span> <span class="ha-chip ${ih?"h":"a"}">${ih?"HOME":"AWAY"}</span>${scoreHtml}</div>
-        <div class="svenue">${f.v}</div>
+        <div class="svenue">${f.v}${sc?"":` · ${venueKO(f)}`}</div>
       </div></div>`;
   });
   // finals step
